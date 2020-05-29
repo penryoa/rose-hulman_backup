@@ -1,0 +1,23 @@
+import java.util.Set;
+
+public class Links implements LinksInterface{
+	
+	public String name;
+	
+	public Links (String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public Set<String> getCandidates(String word) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean exists(String word) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

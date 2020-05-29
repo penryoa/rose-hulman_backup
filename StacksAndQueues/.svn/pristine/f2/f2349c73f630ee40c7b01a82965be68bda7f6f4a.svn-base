@@ -1,0 +1,15 @@
+package evaluator;
+
+public class InfixEvaluator extends Evaluator{
+
+	@Override
+	public int evaluate(String expression) throws ArithmeticException {
+		// TODO Auto-generated method stub.
+		return 0;
+	}
+
+	public Object convertToPostfix(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

@@ -1,0 +1,61 @@
+package queues;
+
+import java.util.NoSuchElementException;
+
+public class QueueFromStacks<T> implements SimpleQueue<T>{
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enqueue(T item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public T dequeue() throws NoSuchElementException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String toString() {
+		
+		
+		return null;
+	}
+	
+	@Override
+	public T peek() throws NoSuchElementException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean contains(T item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String debugString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

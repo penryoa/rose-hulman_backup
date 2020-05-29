@@ -1,0 +1,97 @@
+package queues;
+import java.util.NoSuchElementException;
+import java.util.Stack;
+
+public class QueueFromStacks<T> implements SimpleQueue<T> {
+
+	// Make some variables
+
+	private Stack<T> stackNew;
+	private Stack<T> stackOld;
+	private int count = 0;
+
+	public QueueFromStacks() {
+		this.stackNew = new Stack<T>();
+		this.stackOld = new Stack<T>();
+		this.count = 0;
+	}
+
+	@Override
+	public void clear() {
+		this.stackNew = new Stack<T>();
+		this.stackOld = new Stack<T>();
+		this.count = 0;
+	}
+
+	@Override
+	public void enqueue(T item) {
+		this.stackNew.push(item);
+		this.count++;
+
+	}
+
+	@Override
+	public T dequeue() throws NoSuchElementException {
+		if (this.stackNew.isEmpty() && this.stackOld.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		if (this.stackOld.isEmpty()) {
+			switchStack();
+		}
+
+		this.count--;
+		return this.stackOld.pop();
+	}
+
+	public void switchStack() {
+		while (!stackNew.isEmpty()) {
+			this.stackOld.push(stackNew.pop());
+		}
+
+	}
+
+	public String toString() {
+
+		return null;
+	}
+
+	@Override
+	public T peek() throws NoSuchElementException {
+		if (this.stackNew.isEmpty() && this.stackOld.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		if(this.stackOld.isEmpty()){
+			switchStack();
+		}
+		T temp = this.stackOld.pop();
+		this.stackOld.push(temp);
+		
+		return temp;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		if (this.stackNew.isEmpty() && this.stackOld.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public int size() {
+		return this.count;
+	}
+
+	@Override
+	public boolean contains(T item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String debugString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

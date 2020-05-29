@@ -1,0 +1,177 @@
+package queues;
+
+import java.lang.reflect.Array;
+import java.util.NoSuchElementException;
+
+/**
+ * A circular queue that grows as needed.
+ * 
+ * @author Matt Boutell and <<<your name here>>>
+ * @param <T>
+ */
+public class GrowableCircularArrayQueue<T> implements SimpleQueue<T> {
+	// TODO: Declare this class to implement SimpleQueue<T>, then add the
+	// missing methods (Eclipse will help).
+	// TODO: The javadoc for overridden methods is in the SimpleQueue interface.
+	// Read it!
+
+	private static final int INITIAL_CAPACITY = 5;
+
+	private T[] array;
+	private Class<T> type;
+
+	private int front;
+	private int end;
+
+	/**
+	 * Creates an empty queue with an initial capacity of 5
+	 * 
+	 * @param type
+	 *            So that an array of this type can be constructed.
+	 */
+	@SuppressWarnings("unchecked")
+	public GrowableCircularArrayQueue(Class<T> type) {
+		this.type = type;
+		// This is a workaround due to a limitation Java has with
+		// constructing generic arrays.
+		this.array = (T[]) Array.newInstance(this.type, INITIAL_CAPACITY);
+		front = 0;
+		end = 0;
+	}
+
+	/**
+	 * Displays the contents of the queue in insertion order, with the
+	 * most-recently inserted one last, in other words, not wrapped around. Each
+	 * adjacent pair will be separated by a comma and a space, and the whole
+	 * contents will be bounded by square brackets. See the unit tests for
+	 * examples.
+	 */
+	@Override
+	public String toString() {
+		// DONE: implement this method
+
+		if (this.array.length == 0) {
+			return "[]";
+		}
+
+		String s = new String();
+		s += "[";
+		for (int i = 0; i < this.array.length; i++) {
+			if (i == this.array.length - 1) {
+				if (this.array[i] != null) {
+					s += this.array[i] + "]";
+				} 
+			} else {
+				if (this.array[i] != null) {
+					s += this.array[i] + ", ";
+				} 
+			}
+		}
+		return s;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		T[] newArray = (T[]) Array.newInstance(this.type, INITIAL_CAPACITY);
+		this.array = newArray;
+		front = 0;
+		end = 0;
+	}
+
+	@Override
+	public void enqueue(T item) {
+		// TODO Auto-generated method stub
+		if (end + 1 == front || end == this.array.length - 1 && front == 0) {
+			@SuppressWarnings("unchecked")
+			T[] tempArray = (T[]) Array.newInstance(this.type, INITIAL_CAPACITY * 2);
+
+			int count = 0;
+
+			for (int i = front; i < this.array.length; i++) {
+				tempArray[count] = this.array[i];
+				end = i;
+				count++;
+			}
+
+			for (int i = 0; i < front; i++) {
+				tempArray[count] = this.array[i];
+				end = i;
+				count++;
+			}
+			this.array = tempArray;
+			front = 0;
+		}
+
+		if (end == this.array.length - 1) {
+			this.array[0] = item;
+			end = 0;
+		} else {
+			this.array[end + 1] = item;
+			end = end + 1;
+		}
+
+	}
+
+	@Override
+	public T dequeue() throws NoSuchElementException {
+		// TODO Auto-generated method stub
+		if (this.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		
+		T item = this.array[front];
+		this.array[front] = null;
+		
+		if (front == this.array.length-1) {
+			front = 0;
+		} else {
+			front++;
+		}
+		
+		return item;
+	}
+
+	@Override
+	public T peek() throws NoSuchElementException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// DONE Auto-generated method stub
+		for (int i = 0; i < this.array.length; i++) {
+			if (this.array[i] != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public int size() {
+		// DONE Auto-generated method stub
+		int count = 0;
+		for (int i = 0; i < this.array.length; i++) {
+			if (this.array[i] != null) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public boolean contains(T item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String debugString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

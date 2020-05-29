@@ -1,0 +1,69 @@
+package priorityQueue;
+
+import java.util.ArrayList;
+
+/**
+ * An implementation of the Priority Queue interface using an array list.
+ * 
+ * @author Matt Boutell and <<TODO: Your name here>>>. Created Mar 29, 2014.
+ * 
+ * @param <T>
+ *            Generic type of PQ elements
+ */
+public class ArrayListMinPQ<T extends Comparable<T>> {
+	// Requirement: You must use this instance variable without changes.
+	private ArrayList<T> items;
+	private int numItems;
+
+	public ArrayListMinPQ() {
+		// TODO: implement
+		this.items = new ArrayList<T>();
+		this.numItems = items.size();
+	}
+
+	public T findMin() {
+		// This is also known as peekMin
+		// TODO: implement
+		if (this.isEmpty()) {
+			return null;
+		}
+
+		T min = this.items.get(0);
+		for (T item : this.items) {
+			if (item.compareTo(min) < 0) {
+				min = item;
+			}
+		}
+		return min;
+	}
+
+	public T deleteMin() {
+		// TODO: implement
+		if (this.isEmpty()) return null;
+		
+		T t = this.findMin();
+		this.items.remove(this.findMin());
+		return t;
+	}
+
+	public void insert(T item) {
+		// TODO: implement
+		this.items.add(item);
+		this.numItems++;
+	}
+
+	public int size() {
+		// TODO: implement
+		return this.numItems;
+	}
+
+	public boolean isEmpty() {
+		// TODO: implement
+		return this.numItems == 0;
+	}
+
+	public void clear() {
+		// TODO: implement
+		this.numItems = 0;
+	}
+}

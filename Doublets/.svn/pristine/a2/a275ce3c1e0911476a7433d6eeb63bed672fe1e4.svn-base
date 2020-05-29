@@ -1,0 +1,41 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Links implements LinksInterface{
+	
+	public String name;
+	public HashSet<String> wordList;
+	
+	public Links (String name) throws FileNotFoundException {
+		this.name = name;
+		this.wordList = new HashSet<>();
+		LinksHelper(name);
+	}
+	
+	public void LinksHelper(String name) throws FileNotFoundException {
+		FileReader file = new FileReader(this.name);
+		Scanner s = new Scanner(file);
+
+		while (s.hasNext()) {
+			String word = s.nextLine();
+			this.wordList.add(word);
+		}
+		System.out.println(this.wordList);
+	}
+	
+	@Override
+	public Set<String> getCandidates(String word) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean exists(String word) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

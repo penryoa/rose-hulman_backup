@@ -1,0 +1,19 @@
+package containsPairDifference;
+
+public class ContainsPairDifference {
+	
+	public static boolean containsPairDifferenceLinearTime(int[] array, int diff) {
+		// TODO: write this
+		
+		return false;
+	}
+
+	
+	public static boolean containsPairDifferenceArrayOnly(int[] array, int diff) {
+		// TODO: write this
+		
+		return false;
+	}
+
+	
+}

@@ -1,0 +1,72 @@
+package tree;
+
+/**
+ * An implementation of a binary search tree, containing Integer data.
+ * 
+ * @author <<TODO: your name here >>>.
+ *
+ */
+
+public class BinarySearchTree {
+
+	BinaryNode root;
+
+	public final BinaryNode NULL_NODE = new BinaryNode(null);
+
+	public BinarySearchTree() {
+		root = NULL_NODE;
+	}
+	
+	public int countExactlyBalancedNodes() {
+		// TODO: Write this method!
+		return -1;
+	}
+	
+	// The next methods are used by the unit tests
+	public void insert(Integer e) {
+		root = root.insert(e);
+	}
+
+	@Override
+	public String toString() {
+		return root.toString();
+	}
+
+	// /////////////// BinaryNode
+	class BinaryNode {
+		
+		public Integer data;
+		public BinaryNode left;
+		public BinaryNode right;
+
+		public BinaryNode(Integer data) {
+			this.data = data;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+
+
+		// The next 2 methods are used by the unit tests
+		public BinaryNode insert(Integer e) {
+			if (this == NULL_NODE) {
+				return new BinaryNode(e);
+			} else if (e.compareTo(this.data) < 0) {
+				left = left.insert(e);
+			} else if (e.compareTo(this.data) > 0) {
+				right = right.insert(e);
+			} else {
+				// do nothing
+			}
+			return this;
+		}
+
+		@Override
+		public String toString() {
+			if (this == NULL_NODE) {
+				return "";
+			}
+			return left.toString() + this.data.toString() + right.toString();
+		}
+	}
+
+}

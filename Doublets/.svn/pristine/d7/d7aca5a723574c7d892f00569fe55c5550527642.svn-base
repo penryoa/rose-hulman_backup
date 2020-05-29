@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+/**
+ * @author <<TODO>>
+ */
+public class Doublets {
+	static private LinksInterface links;
+	private static ChainManager chainType;
+	
+	public Doublets(LinksInterface links) {
+		this.links = links;
+	}
+
+	public static void main(String[] args) {
+		Doublets doublet = new Doublets(links);
+		// TODO: write a text-based UI to find doublets.
+		System.out.println("Welcome to Doublets, a game of 'verbal torture.'");
+		Scanner scanner = new Scanner(System.in);
+	
+		System.out.println("Enter starting word");
+		String start = scanner.nextLine();
+		//String start = handleCommand(enterCommandLine);
+		
+		System.out.println("Enter ending word");
+		String end = scanner.nextLine();
+		//String end = handleCommand(endCommandLine);
+		
+		System.out.println(" Enter chain manager (s: stack, q: queue, x: exit)");
+		String type = scanner.nextLine();
+		//String type = handleCommand(enterCommandLine);
+		if(type.equals("s")){
+			chainType = new StackChainManager();
+		}else if(type.equals("q")){
+			chainType = new QueueChainManager();
+		}else if(type.equals("x")){
+			System.exit(0);
+		}
+		
+		doublet.findChain(start,end,chainType);
+	}
+
+
+	public Chain findChain(String start, String end, ChainManager manager) {
+		// TODO: implement the general algorithm to search for doublets.
+		manager.add(new Chain(start));
+		return null;
+	}
+
+}

@@ -1,0 +1,49 @@
+package queues;
+
+import java.lang.reflect.Array;
+
+/**
+ * A circular queue that grows as needed.
+ * 
+ * @author Matt Boutell and <<<your name here>>>
+ * @param <T>
+ */
+public class GrowableCircularArrayQueue<T> {
+	// TODO: Declare this class to implement SimpleQueue<T>, then add the
+	// missing methods (Eclipse will help).
+	// TODO: The javadoc for overridden methods is in the SimpleQueue interface.
+	// Read it!
+
+	private static final int INITIAL_CAPACITY = 5;
+
+	private T[] array;
+	private Class<T> type;
+
+	/**
+	 * Creates an empty queue with an initial capacity of 5
+	 * 
+	 * @param type
+	 *            So that an array of this type can be constructed.
+	 */
+	@SuppressWarnings("unchecked")
+	public GrowableCircularArrayQueue(Class<T> type) {
+		this.type = type;
+		// This is a workaround due to a limitation Java has with
+		// constructing generic arrays.
+		this.array = (T[]) Array.newInstance(this.type, INITIAL_CAPACITY);
+	}
+
+	/**
+	 * Displays the contents of the queue in insertion order, with the
+	 * most-recently inserted one last, in other words, not wrapped around. Each
+	 * adjacent pair will be separated by a comma and a space, and the whole
+	 * contents will be bounded by square brackets. See the unit tests for
+	 * examples.
+	 */
+	@Override
+	public String toString() {
+		// TODO: implement this method
+		return "replace me";
+	}
+
+}

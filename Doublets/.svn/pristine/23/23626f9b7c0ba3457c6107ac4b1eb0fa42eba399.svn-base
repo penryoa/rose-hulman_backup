@@ -1,0 +1,23 @@
+
+public class StackChainManager extends ChainManager {
+
+	
+	@Override
+	public void add(Chain chain) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public Chain next() {
+		// TODO Auto-generated method stub.
+		return null;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub.
+		return false;
+	}
+
+}

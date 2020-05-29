@@ -1,0 +1,44 @@
+import java.util.Stack;
+
+public class StackChainManager extends ChainManager {
+	
+	Stack<Chain> words;
+	String end;
+	
+	/**
+	 * Constructors
+	 */
+	
+	public StackChainManager() {
+		this.words = new Stack<>();
+	}
+	
+	public StackChainManager(String end) {
+		this.words = new Stack<>();
+		this.end = end;
+	}
+
+	
+	/**
+	 * ChainManager methods
+	 */
+	
+	@Override
+	public void add(Chain chain) {
+		this.words.push(chain);
+		int currentMaxSize = this.maxSize();
+		this.updateMax(currentMaxSize + 1);
+	}
+
+	@Override
+	public Chain next() {
+		this.incrementNumNexts();
+		return this.words.pop();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return (this.words.isEmpty());
+	}
+
+}

@@ -1,0 +1,87 @@
+import java.util.PriorityQueue;
+
+public class PriorityQueueChainManager extends ChainManager {
+	private int size;
+	private String endWord;
+	private PriorityQueue<Chain> queue = new PriorityQueue<Chain>();
+	private Entry entry;
+
+	public PriorityQueueChainManager(String s) {
+		this.endWord = s;
+		this.entry = new Entry(this.next(), this.endWord);
+	}
+
+	@Override
+	public void add(Chain chain) {
+		this.queue.offer(chain);
+		this.size++;
+		this.updateMax(this.size);
+
+	}
+
+	@Override
+	public Chain next() {
+		this.size--;
+		this.incrementNumNexts();
+		return this.queue.poll();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return (this.queue.isEmpty());
+	}
+
+	public int distanceEstimator(String word) {
+		int count = 0;
+		for (int i = 0; i < word.length(); i++) {
+			if (word.charAt(i) != this.endWord.charAt(i)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public class Entry implements Comparable {
+		private int value;
+		private Chain chain;
+		private int distEstimate;
+		private int length;
+		private String endWord;
+
+		public Entry(Chain chain, String endWord) {
+			this.value = 0;
+			this.chain = chain;
+			this.distEstimate = 0;
+			this.length = 0;
+			this.endWord = endWord;
+		}
+
+		@Override
+		public int compareTo(Entry entry2) {
+			return this.getValue() - entry2.getValue();
+		}
+
+		public int distanceEstimator(String word) {
+			int count = 0;
+			for (int i = 0; i < word.length(); i++) {
+				if (word.charAt(i) == this.endWord.charAt(i)) {
+					count++;
+				}
+			}
+			return count;
+		}
+
+		public int getValue(){
+			for (String string : this.chain) {
+				this.distEstimate += distanceEstimator(string);
+				this.length ++;
+			}
+			this.value = this.distEstimate + this.length;
+			
+			return this.value;
+		}
+		public void chainSwap(Chain chain1, Chain chain2){
+			distanceEstimator(chain1.getLast());
+		}
+	}
+}
