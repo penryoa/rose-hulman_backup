@@ -1,0 +1,13 @@
+package chessPieces;
+
+public class Knight extends AbstractChessPiece {
+	public Knight(boolean isWhite) {
+		super("knight", isWhite);
+	}
+	
+	@Override
+	public boolean checkMove(int dx, int dy) {
+		
+		return false;
+	}
+}

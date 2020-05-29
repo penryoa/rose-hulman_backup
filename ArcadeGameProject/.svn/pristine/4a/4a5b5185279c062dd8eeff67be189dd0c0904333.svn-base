@@ -1,0 +1,99 @@
+
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class DirectionListener implements KeyListener {
+	DigDugComponent c;
+	Point pt;
+	private World w;
+	private Hero h;
+
+	public DirectionListener(DigDugComponent c) {
+		this.c = c;
+		this.w = this.c.getWorld();
+		this.h = this.w.hero;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == e.VK_LEFT) {
+			h.moveBy(-10, 0);
+			BlackSpace blackSpace = new BlackSpace(h.centerPoint);
+			w.blackSpaces.put(h.centerPoint, blackSpace);
+			pt = new Point(h.centerPoint);
+			if (!w.blackSpaces.containsKey(new Point(pt.x - 20, pt.y))
+					&& w.blackSpaces.containsKey(new Point(pt.x - 40, pt.y))) {
+				w.blackSpaces.put(new Point(pt.x - 10, pt.y), new BlackSpace(new Point(pt.x - 10, pt.y)));
+				w.blackSpaces.put(new Point(pt.x - 20, pt.y), new BlackSpace(new Point(pt.x - 20, pt.y)));
+				w.blackSpaces.put(new Point(pt.x - 30, pt.y), new BlackSpace(new Point(pt.x - 30, pt.y)));
+			}
+			c.repaint();
+		}
+
+		if (e.getKeyCode() == e.VK_RIGHT) {
+			h.moveBy(10, 0);
+			BlackSpace blackSpace = new BlackSpace(h.centerPoint);
+			w.blackSpaces.put(h.centerPoint, blackSpace);
+			pt = new Point(h.centerPoint);
+			if (!w.blackSpaces.containsKey(new Point(pt.x + 20, pt.y))
+					&& w.blackSpaces.containsKey(new Point(pt.x + 40, pt.y))) {
+				w.blackSpaces.put(new Point(pt.x + 10, pt.y), new BlackSpace(new Point(pt.x + 10, pt.y)));
+				w.blackSpaces.put(new Point(pt.x + 20, pt.y), new BlackSpace(new Point(pt.x + 20, pt.y)));
+				w.blackSpaces.put(new Point(pt.x + 30, pt.y), new BlackSpace(new Point(pt.x + 30, pt.y)));
+			}
+			c.repaint();
+		}
+
+		if (e.getKeyCode() == e.VK_UP) {
+			h.moveBy(0, -10);
+			BlackSpace blackSpace = new BlackSpace(h.centerPoint);
+			c.getWorld().blackSpaces.put(h.centerPoint, blackSpace);
+			pt = new Point(h.centerPoint);
+			if (!w.blackSpaces.containsKey(new Point(pt.x, pt.y - 20))
+					&& w.blackSpaces.containsKey(new Point(pt.x, pt.y - 40))) {
+				w.blackSpaces.put(new Point(pt.x, pt.y - 10), new BlackSpace(new Point(pt.x, pt.y - 10)));
+				w.blackSpaces.put(new Point(pt.x, pt.y - 20), new BlackSpace(new Point(pt.x, pt.y - 20)));
+				w.blackSpaces.put(new Point(pt.x, pt.y - 30), new BlackSpace(new Point(pt.x, pt.y - 30)));
+			}
+			c.repaint();
+		}
+
+		if (e.getKeyCode() == e.VK_DOWN) {
+			h.moveBy(0, 10);
+			BlackSpace blackSpace = new BlackSpace(h.centerPoint);
+			w.blackSpaces.put(h.centerPoint, blackSpace);
+			pt = new Point(h.centerPoint);
+			if (!w.blackSpaces.containsKey(new Point(pt.x, pt.y + 20))
+					&& c.getWorld().blackSpaces.containsKey(new Point(pt.x, pt.y + 40))) {
+				w.blackSpaces.put(new Point(pt.x, pt.y + 10), new BlackSpace(new Point(pt.x, pt.y + 10)));
+				w.blackSpaces.put(new Point(pt.x, pt.y + 20), new BlackSpace(new Point(pt.x, pt.y + 20)));
+				w.blackSpaces.put(new Point(pt.x, pt.y + 30), new BlackSpace(new Point(pt.x, pt.y + 30)));
+			}
+			c.repaint();
+		}
+
+		if (e.getKeyCode() == e.VK_U) {
+			this.c.getWorld().changeLevel(1);
+		}
+
+		if (e.getKeyCode() == e.VK_D) {
+			this.c.getWorld().changeLevel(-1);
+		}
+
+		if (e.getKeyCode() == e.VK_SPACE) {
+			this.h.newShooter.drawCentered((Graphics2D) this.c.getGraphics());
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+}

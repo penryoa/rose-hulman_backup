@@ -1,0 +1,52 @@
+
+
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class DigDugViewer {
+
+	/**
+	 * The width of the frame.
+	 */
+	public static final int WIDTH = 400;
+	/**
+	 * The height of the frame.
+	 */
+	public static final int HEIGHT = 300;
+
+	public void makeWindow() {
+		JFrame frame = new JFrame();
+
+		frame.setTitle("Dig Dug Project");
+
+		DigDugComponent c = new DigDugComponent();
+
+		c.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		frame.add(c);
+
+		JPanel panel = new JPanel();
+
+		// TODO: add your buttons here.
+		DirectionListener direction = new DirectionListener(c);
+		
+		frame.addKeyListener(direction);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		DigDugViewer viewer = new DigDugViewer();
+		viewer.makeWindow();
+	}
+
+	
+
+}

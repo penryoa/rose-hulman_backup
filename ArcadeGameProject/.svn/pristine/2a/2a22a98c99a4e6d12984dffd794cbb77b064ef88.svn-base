@@ -1,0 +1,30 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+public class Shooter extends GameObject {
+
+	// ======= Important Objects ======= \\
+	public int dx;
+	public int dy;
+
+	// ======= Shooter Constructor ======= \\
+
+	public Shooter(Point centerPoint, World world, String name) {
+		super(centerPoint, world, name);
+	}
+
+	public void move() {
+		for(int i=0;i<this.world.monsters.size();i++) {
+			this.collideWithMonster(this.world.monsters.get(i));
+		}
+	}
+
+	@Override
+	public void timePassed() {
+	}
+}

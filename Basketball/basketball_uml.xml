@@ -1,0 +1,35 @@
+<diagram program="umletino" version="14.2"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>60</x><y>60</y><w>380</w><h>140</h></coordinates><panel_attributes>BasketballMain
+--
+handleCreatePlayer(String name, double accuracy)
+handleCreateContest(String contestName, int shots )
+handleAddPlayerToContest(String playerName, String contestName)
+handleRunContest(String contestName)
+handleGetRawData(String playerName, String contestName )
+handleGetHitStreak(String playerName, String contestName )
+handleGetPercentage(String playerName, String contestName )</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>250</y><w>110</w><h>140</h></coordinates><panel_attributes>Player
+--
+hitsMissesString
+accuracy
+hits
+shotsTaken
+percentageHits
+--
+addMiss()
+addHit()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>250</y><w>290</w><h>140</h></coordinates><panel_attributes>BasketballContest
+--
+contestTitle
+shotsPerContest
+players: Hashmap&lt;name: Player, accuracy: double&gt;
+--
+addPlayer(name: String, accuracy: double)
+playerScoreReport(player:String)
+playerPercentageHit(player:String)
+playerMaxStreak(player: String)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>520</x><y>60</y><w>130</w><h>90</h></coordinates><panel_attributes>BasketballUtility
+--
+RANDOM_SPEED
+rand
+-
+getRandomDouble()
+main()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>190</y><w>90</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>10;60;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>340</x><y>250</y><w>130</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>60</y><w>110</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element></diagram>

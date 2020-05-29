@@ -1,0 +1,7 @@
+
+import java.awt.Graphics2D;
+
+public interface Drawable {
+	public void drawCentered(Graphics2D g2);
+	public void move(int dx, int dy);
+}

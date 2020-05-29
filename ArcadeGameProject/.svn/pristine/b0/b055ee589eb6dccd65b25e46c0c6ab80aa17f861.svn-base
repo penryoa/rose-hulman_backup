@@ -1,0 +1,68 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class DirectionListener implements KeyListener {
+	DigDugComponent c;
+	private World w;
+	private Hero h;
+
+	public DirectionListener(DigDugComponent c) {
+		this.c = c;
+		this.w = this.c.getWorld();
+		this.h = this.w.hero;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == e.VK_LEFT) {
+			h.moveBy(-10, 0);
+			this.dig();
+		} else if (e.getKeyCode() == e.VK_RIGHT) {
+			h.moveBy(10, 0);
+			this.dig();
+		} else if (e.getKeyCode() == e.VK_UP) {
+			h.moveBy(0, -10);
+			this.dig();
+		} else if (e.getKeyCode() == e.VK_DOWN) {
+			h.moveBy(0, 10);
+			this.dig();
+		} else if (e.getKeyCode() == e.VK_U) {
+			w.changeLevel(1);
+		} else if (e.getKeyCode() == e.VK_D) {
+			w.changeLevel(-1);
+		} else if (e.getKeyCode() == e.VK_SPACE) {
+			this.h.newShooter.drawCentered((Graphics2D) this.c.getGraphics());
+			this.h.newShooter.move();
+		} else if (e.getKeyCode() == e.VK_P) {
+			this.w.setIsPaused(true);
+		} else if (e.getKeyCode() == e.VK_C) {
+			this.w.setIsPaused(false);
+		} else if (e.getKeyCode() == e.VK_ENTER) {
+			this.w.setIsPaused(false);
+			this.w.changeLevel(0);
+		}
+
+	}
+
+	public void dig() {
+		if (this.w.isDigging==false && !w.blackSpaces.containsKey(this.h.getCenterPoint())) {
+			w.addBlackSpaces(this.h.getCenterPoint());
+//			w.blackSpaces.put(this.h.getCenterPoint(), new BlackSpace(this.h.getCenterPoint()));
+			this.w.addToScore(1);
+			this.w.updateScoreLabel();
+		}
+		c.repaint();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+}

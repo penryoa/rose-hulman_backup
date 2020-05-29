@@ -1,0 +1,19 @@
+import java.awt.Point;
+
+public class Fruit extends GameObject {
+
+	public Fruit(Point center, World world, String name) {
+		super(center, world, name);
+	}
+
+	@Override
+	public void timePassed() {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = this.world.hero.getCenterPoint().getX();
+		double y2 = this.world.hero.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) < 40 && Math.abs(y2 - y1) < 40) {
+			this.world.fruits.remove(this);
+		}
+	}
+}

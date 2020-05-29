@@ -1,0 +1,49 @@
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class DirectionListener implements KeyListener {
+	DigDugComponent c;
+	
+	public DirectionListener(DigDugComponent c) {
+		this.c = c;
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub.
+		if(e.getKeyCode() == e.VK_LEFT){
+			c.removeAll();
+			c.getHero().moveBy(-10, 0);
+			c.repaint();
+		}
+		if(e.getKeyCode() == e.VK_RIGHT){
+			Graphics2D g2 = (Graphics2D) c.getGraphics();
+			c.getHero().moveBy(10, 0);
+			c.update(g2);
+		}
+		if(e.getKeyCode() == e.VK_UP){
+			c.removeAll();
+			c.getHero().moveBy(0, -10);
+			c.repaint();
+		}
+		if(e.getKeyCode() == e.VK_DOWN){
+			c.removeAll();
+			c.getHero().moveBy(0, 10);
+			c.repaint();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub.
+
+	}
+
+}

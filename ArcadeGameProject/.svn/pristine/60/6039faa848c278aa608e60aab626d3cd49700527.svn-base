@@ -1,0 +1,129 @@
+
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+public abstract class GameObject implements Temporal {
+
+	// ======= Important Objects ======= \\
+
+	protected Point centerPoint;
+	protected World world;
+	protected String name;
+	protected Dimension dimension;
+	protected BufferedImage image;
+	protected boolean hit = false;
+	protected HashMap<Point, BlackSpace> blackSpaces = new HashMap<>();
+	
+
+	// ======= GameObject Constructor ======= \\
+
+	public GameObject(Point center, World world, String name) {
+		this.centerPoint = center;
+		this.name = name;
+		this.world = world;
+		this.dimension=new Dimension(40,40);
+		this.image = this.getImage();
+	}
+
+	// ======= Other Methods ======= \\
+	public void drawCentered(Graphics2D g2) {
+		g2 = (Graphics2D) g2.create();
+		g2.translate(this.centerPoint.x-image.getWidth() / 2, centerPoint.y-image.getHeight() / 2);
+		g2.drawImage(image, 0, 0, null);
+	}
+	
+	public void moveBy(int dx, int dy) {
+		this.centerPoint = new Point(centerPoint.x + dx, centerPoint.y + dy);
+	}
+	
+	public void setBlackSpace(HashMap<Point, BlackSpace> blackSpaces) {
+		this.blackSpaces = blackSpaces;
+	}
+	
+	public Point getCenterPoint() {
+		return this.centerPoint;
+	}
+	
+	public void setCenterPoint(Point point) {
+		this.centerPoint = point;
+	}
+	
+	public BufferedImage getImage() {
+		String pictureName = this.name + ".png";
+		try {
+			BufferedImage picture = ImageIO.read(new File(pictureName));
+			return picture;
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing Object: " + e);
+		}
+	}
+
+	public Dimension getDimension() {
+		return this.dimension;
+	}
+
+	public void setDimension(int dimenx, int dimeny) {
+		this.dimension = new Dimension(40, 40);
+	}
+
+	public void collideWith(GameObject other) {
+	}
+
+	public void collideWithHero(Hero hero) {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = hero.getCenterPoint().getX();
+		double y2 = hero.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) <= 40 && Math.abs(y2 - y1) <= 40) {
+			this.hit = true;
+			hero.die();
+		}
+	}
+
+	// Beware infinite loops: someone must eventually "handle" the collision.
+	public void collideWithMonster(Monster monster) {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = monster.getCenterPoint().getX();
+		double y2 = monster.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) < 40 && Math.abs(y2 - y1) < 40) {
+			this.world.monsters.remove(monster);
+		}
+	}
+
+	public void collideWithRock(Rock rock) {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = rock.getCenterPoint().getX();
+		double y2 = rock.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) < 40 && Math.abs(y2 - y1) < 40) {
+			this.world.hero.hit = true;
+		}
+	}
+	
+	// ======= Temporal Methods ======= \\
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}

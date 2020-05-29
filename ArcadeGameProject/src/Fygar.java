@@ -1,0 +1,145 @@
+
+import java.awt.Point;
+import java.util.Random;
+
+/**
+ * Fygar is the fire-breathing monster that looks like a green dinosaur. It
+ * takes three hits of the hero's shooter to kill a Fygar.
+ * 
+ * @author penryoa
+ *
+ */
+
+public class Fygar extends Monster {
+	// ======= Fygar Constructor ======= \\
+
+	private Fire newShooter;
+
+	public Fygar(Point centerPoint, World world, String name) {
+		super(centerPoint, world, name);
+	}
+
+	@Override
+	public void timePassed() {
+		if (this.isDying == false) {
+			if (this.hit == false) {
+				Random num = new Random();
+				this.timeCounter++;
+				if (this.world.level.getCurrentLevel() != 6 && this.timeCounter > 50) {
+					this.isGhost = true;
+					this.name = "ghost";
+					this.image = this.getImage();
+				} else {
+					this.isGhost = false;
+					this.name = this.originalName;
+					this.image = this.getImage();
+				}
+				Point leftPt = new Point(this.centerPoint.x + 10, this.centerPoint.y);
+				Point downPt = new Point(this.centerPoint.x, this.centerPoint.y + 10);
+				Point rightPt = new Point(this.centerPoint.x - 10, this.centerPoint.y);
+				Point upPt = new Point(this.centerPoint.x, this.centerPoint.y - 10);
+
+				if (this.isGhost == false) {
+
+					if (this.world.blackSpaces.containsKey(new Point(this.centerPoint.x + 40, this.centerPoint.y))
+							&& num.nextInt(10) > 7) {
+						this.newShooter = new Fire(new Point(this.centerPoint.x + 40, this.centerPoint.y), this.world,
+								"fire");
+						this.world.shooters.add(this.newShooter);
+					} else if (this.world.blackSpaces.containsKey(
+							new Point(this.centerPoint.x - 40, this.centerPoint.y)) && num.nextInt(10) > 7) {
+						this.newShooter = new Fire(new Point(this.centerPoint.x - 40, this.centerPoint.y), this.world,
+								"fireLeft");
+						this.world.shooters.add(this.newShooter);
+					} else if (this.world.blackSpaces.containsKey(
+							new Point(this.centerPoint.x, this.centerPoint.y - 40)) && num.nextInt(10) > 7) {
+						this.newShooter = new Fire(new Point(this.centerPoint.x, this.centerPoint.y - 40), this.world,
+								"fireUp");
+						this.world.shooters.add(this.newShooter);
+					} else if (this.world.blackSpaces.containsKey(
+							new Point(this.centerPoint.x, this.centerPoint.y + 40)) && num.nextInt(10) > 7) {
+						this.newShooter = new Fire(new Point(this.centerPoint.x, this.centerPoint.y + 40), this.world,
+								"fireDown");
+						this.world.shooters.add(this.newShooter);
+					} else {
+						if (this.hit == false) {
+							if (left == false && this.blackSpaces.containsKey(leftPt)) {
+								this.right = true;
+								this.moveBy(10, 0);
+								return;
+							} else {
+								this.right = false;
+							}
+
+							if (up == false && this.blackSpaces.containsKey(downPt)) {
+								this.down = true;
+								this.moveBy(0, 10);
+								this.name = "fygarDown";
+								this.image = this.getImage();
+								return;
+							} else {
+								this.down = false;
+							}
+
+							if (this.blackSpaces.containsKey(rightPt)) {
+								this.left = true;
+								this.moveBy(-10, 0);
+								this.name = "fygarLeft";
+								this.image = this.getImage();
+								return;
+							} else {
+								this.left = false;
+							}
+
+							if (this.blackSpaces.containsKey(upPt)) {
+								this.up = true;
+								this.moveBy(0, -10);
+								this.name = "fygarUp";
+								this.image = this.getImage();
+								return;
+							} else {
+								this.up = false;
+							}
+						}
+					}
+				} else {
+					if (this.getCenterPoint().getX() - this.world.hero.getCenterPoint().getX() > 0) {
+						this.moveBy(-10, 0);
+					} else {
+						this.moveBy(10, 0);
+					}
+					if (this.getCenterPoint().getY() - this.world.hero.getCenterPoint().getY() > 0) {
+						this.moveBy(0, -10);
+					} else {
+						this.moveBy(0, 10);
+					}
+					if (this.blackSpaces.containsKey(this.getCenterPoint())) {
+						this.timeCounter = 0;
+					}
+				}
+			}
+			this.hit = false;
+		} else {
+			this.dyingCount++;
+			if (this.dyingCount < 2) {
+				this.name = "fygarDying1";
+				this.image = this.getImage();
+			} else if (this.dyingCount < 4) {
+				this.name = "fygarDying2";
+				this.image = this.getImage();
+			} else {
+				this.world.monsters.remove(this);
+				this.world.addToScore(300);
+			}
+		}
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		return false;
+	}
+}

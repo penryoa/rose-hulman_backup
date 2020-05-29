@@ -1,0 +1,57 @@
+import java.awt.Point;
+
+public class Creeper extends Monster {
+
+	// ======= Creeper Constructor ======= \\
+	public Creeper(Point centerPoint, World world, String name) {
+		super(centerPoint, world, name);
+	}
+
+	@Override
+	public void timePassed() {
+
+		Point leftPt = new Point(this.centerPoint.x + 10, this.centerPoint.y);
+		Point downPt = new Point(this.centerPoint.x, this.centerPoint.y + 10);
+		Point rightPt = new Point(this.centerPoint.x - 10, this.centerPoint.y);
+		Point upPt = new Point(this.centerPoint.x, this.centerPoint.y - 10);
+
+		if (this.hit == false) {
+			if (this.hit == false) {
+				if (left == false && this.blackSpaces.containsKey(leftPt)) {
+					this.right = true;
+					this.moveBy(10, 0);
+					return;
+				} else {
+					this.right = false;
+				}
+
+				if (up == false && this.blackSpaces.containsKey(downPt)) {
+					this.down = true;
+					this.moveBy(0, 10);
+					return;
+				} else {
+					this.down = false;
+				}
+
+				if (this.blackSpaces.containsKey(rightPt)) {
+					this.left = true;
+					this.moveBy(-10, 0);
+					return;
+				} else {
+					this.left = false;
+				}
+
+				if (this.blackSpaces.containsKey(upPt)) {
+					this.up = true;
+					this.moveBy(0, -10);
+					return;
+				} else {
+					this.up = false;
+				}
+			}
+		}
+
+		this.hit = false;
+	}
+
+}

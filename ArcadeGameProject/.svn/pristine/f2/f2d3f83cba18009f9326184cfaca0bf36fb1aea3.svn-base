@@ -1,0 +1,28 @@
+
+
+import java.awt.Point;
+
+public class Fygar extends Monster{	
+	private int count=0;
+	// ======= Fygar Constructor ======= \\
+	
+	public Fygar(Point centerPoint, World world, String name) {
+		super(centerPoint,world, name);
+	}
+	
+	@Override
+	public void die() {
+		this.count++;
+		if (this.count<=1) {
+			this.name = "fygarDying1";
+			this.image = this.getImage();
+		} else if(this.count<3){
+			this.name = "fygarDying2";
+			this.image = this.getImage();
+		} else {
+			this.world.monsters.remove(this);
+			this.world.addToScore(300);
+		}
+	}
+	
+}

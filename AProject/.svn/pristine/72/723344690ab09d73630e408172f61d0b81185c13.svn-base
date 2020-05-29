@@ -1,0 +1,95 @@
+
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public abstract class MovingObject {
+
+	public Point centerPoint;
+//	public Level level;
+	public DigDugComponent c;
+
+	private static final long UPDATE_INTERVAL_MS = 10;
+	private boolean isPaused = false;
+	private final List<Fygar> fygars = new ArrayList<Fygar>();
+	private final List<Fygar> fygarsToAdd = new ArrayList<Fygar>();
+	private final List<Fygar> fygarsToRemove = new ArrayList<Fygar>();
+	private Point position;
+
+	public MovingObject(Point centerPoint, DigDugComponent c) {
+		this.centerPoint = centerPoint;
+//		this.level = level;
+		this.c = c;
+		Runnable tickTock = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(UPDATE_INTERVAL_MS);
+						timePassed();
+					}
+				} catch (InterruptedException exception) {
+					// Stop when interrupted
+				}
+			}
+		};
+		new Thread(tickTock).start();
+	}
+	
+	public void moveBy(int dx, int dy) {
+		this.position = new Point(position.x + dx, position.y + dy);
+	}
+
+	public void setCenterPoint(Point centerPoint) {
+		this.centerPoint = centerPoint;
+	}
+
+//	public Level getLevel() {
+//		return this.level;
+//	}
+
+	public synchronized void timePassed() {
+		if (!this.isPaused) {
+		for (Fygar t : this.fygars) {
+			t.timePassed();
+		}
+	}
+	this.fygars.removeAll(this.fygarsToRemove);
+	this.fygarsToRemove.clear();
+	this.fygars.addAll(this.fygarsToAdd);
+	this.fygarsToAdd.clear();
+	}
+
+	public void die() {
+
+	}
+
+	public boolean getIsPaused() {
+		return this.isPaused;
+
+	}
+
+	public void setIsPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
+	public void moveTo(Point point) {
+		this.centerPoint = point;
+	}
+
+	public Point2D getCenterPoint() {
+		return this.centerPoint;
+	}
+
+	public void updatePosition() {
+
+	}
+
+	public void updateSize() {
+
+	}
+
+}

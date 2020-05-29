@@ -1,0 +1,93 @@
+import java.awt.geom.Point2D;
+
+public class Hero extends GameObject {
+
+	// ======= Important Objects ======= \\
+
+	private World world;
+	private boolean isPause;
+	private boolean isHit;
+
+	private int directionx;
+	private int directiony;
+
+	public Hero(Point2D initialPosition, World world) {
+		super(initialPosition, world);
+//		this.centerPoint = initialPosition;
+		this.world =world;
+		this.isHit=false;
+		this.isPause=false;
+		this.directionx = 1;
+		this.directiony = 0;
+		this.setName("hero");
+	}
+
+	@Override
+	public void timePassed() {
+		// TODO Auto-generated method stub.
+		if(this.getIsPaused()==false){
+			updatePosition();
+			this.collideWithRock(this.world.getRock());
+//			this.collideWithMonster(this.world.getMonster());
+		}
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		// TODO Auto-generated method stub.
+		this.isPause=isPaused;
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		// TODO Auto-generated method stub.
+		return this.isPause;
+	}
+	
+	public void updatePosition() {
+		double x = this.getCenterPoint().getX();
+		double y = this.getCenterPoint().getY();
+		Point2D newPosition = new Point2D.Double(x+10*this.directionx, y+10*this.directiony);
+		if(this.getWorld().isInsideWorld(newPosition)){
+			this.setCenterPoint(newPosition);
+		}
+		if(this.getCenterPoint()==newPosition){
+			this.setIsPaused(true);
+		}
+	}
+	
+	@Override
+	public void die() {
+		System.out.println("you are dead");
+		this.isPause=true;
+		this.world.deleteGameObject(this);
+	}
+	
+	public void setDirection(int x, int y){
+		this.directionx=x;
+		this.directiony=y;
+	}
+	
+	public World getWorld(){
+		return this.world;
+	}
+	
+	@Override
+	public void setCenterPoint(Point2D point){
+		super.setCenterPoint(point);
+	}
+	
+	public void setIsHit(boolean hitor) {
+		// TODO Auto-generated method stub.
+		this.isHit=hitor;
+	}
+
+//	public void drawShooter(Graphics2D g2) {
+//		Shooter newShooter = new Shooter(g2, this.getCenterPoint(), this.directionx, this.directiony, this.world);
+//		newShooter.move();
+//	}
+
+
+
+
+}

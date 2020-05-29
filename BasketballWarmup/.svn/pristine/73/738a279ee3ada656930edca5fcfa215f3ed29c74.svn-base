@@ -1,0 +1,30 @@
+package stage1;
+
+import java.util.HashMap;
+
+public class BasketballContest {
+
+	
+	public String contestTitle;
+	public int shotsPerContest;
+	public HashMap<Player, Double> players;
+	
+	public BasketballContest(String contestTitle, int shotsPerContest) {
+		this.contestTitle = contestTitle;
+		this.shotsPerContest = shotsPerContest;
+		this.players = new HashMap<Player, Double>();
+	}
+	
+	public void addPlayer(String name, double accuracy) {
+		Player newPlayer = new Player(name, accuracy);
+		this.players.put(newPlayer, accuracy);
+	}
+	
+	public void printPlayerReport(Player player) {
+		player.printReport();
+	}
+	
+	public String playerScoreReport(Player player) {
+		return player.winsLossesString;
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;simpleExample.BankAccount.setBalance(...)&apos; to &apos;setMeasure&apos;&#x0D;&#x0A;- Original project: &apos;Interfaces&apos;&#x0D;&#x0A;- Original element: &apos;simpleExample.BankAccount.setBalance(...)&apos;&#x0D;&#x0A;- Renamed element: &apos;simpleExample.BankAccount.setMeasure(...)&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;setBalance&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;simpleExample{BankAccount.java[BankAccount~setBalance~D" name="setMeasure" references="true" stamp="1515598258391" version="1.0"/>
+</session>

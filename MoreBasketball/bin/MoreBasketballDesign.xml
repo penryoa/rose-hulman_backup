@@ -1,0 +1,44 @@
+<diagram program="umletino" version="14.2"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>580</x><y>140</y><w>210</w><h>90</h></coordinates><panel_attributes>BasketballUtility
+--
+RANDOM_SPEED
+rand
+--
+getRandomDouble()
+main()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>340</y><w>280</w><h>130</h></coordinates><panel_attributes>Player
+--
+name
+accuracy
+contests &lt;Contest: contest, String: hitMissString&gt;
+--
+addToContest(Contest: contest)
+addHit(Contest: contest)
+addMiss(Contest: contest)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>50</x><y>70</y><w>450</w><h>240</h></coordinates><panel_attributes>BasketballMain
+--
+contestList
+playerList 
+--
+handleCreatePlayer(String: name, double: accuracy)
+handleCreateContest(String: contestName, int: shots)
+handleAddPlayerToContest(String: playerName, String: contestName)
+handleRunContest(String: contestName)
+handleViewContestReport(String: playerName, String: contestName )
+handleGetRawData(String: playerName, String: contestName)
+handleGetHitStreak(String: playerName, String: contestName)
+handleGetPercentage(String: playerName, String: contestName)
+handleGetBestStreakContestName(String: playerName)
+handleGetBestPercentageContestName(String: contestName)
+handleReportBestStreakForPlayers(String: playerName)
+handleReportBestPercentageForPlayer(String: playerName)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>130</x><y>360</y><w>240</w><h>110</h></coordinates><panel_attributes>Contest
+--
+contestTitle
+shotsPerContest
+players [Player: player]
+--
+addPlayer(String: name, double: accuracy)
+addPlayer(Player: player)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>300</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>300</y><w>110</w><h>70</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>90;50;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>390</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>390</y><w>110</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>10;10;90;10</additional_attributes></element><element><id>Relation</id><coordinates><x>490</x><y>90</y><w>110</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>90;50;10;10</additional_attributes></element></diagram>

@@ -1,0 +1,23 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
+
+public class Pyramid {
+
+	// TODO: Add fields and constructors.
+
+	public void drawOneBlock(Graphics2D g2) {
+		// TODO: Complete Phase 1
+	}
+	
+	public void drawOn(Graphics2D g2) {
+		// TODO: Complete Phase 2
+	}
+
+	public void drawRotated(Graphics2D g2, double degrees) {
+		// TODO: UNCOMMENT the code below PyramidComponent's TODO 3
+		
+		// TODO: Complete Phase 3
+	}
+}

@@ -1,0 +1,66 @@
+import java.awt.Graphics2D;
+
+// TODO: Refactor Raindrop, Platform, (and hopefully that lone box?) into GameObjects.
+public abstract class GameObject implements Drawable {
+
+	// updatePosition, fall, ... can all be consolidated into an update method.
+
+	
+	public void drawOn() {
+	}
+	
+	public void update() {
+	}
+
+	// fall, willExplode, ...
+	public boolean shouldRemove() {
+		return false;
+	}
+
+	// Called when object is removed.
+	// ie to create the explosion.
+	public void onRemove() {
+
+	}
+
+	public void drawOn(Graphics2D g2) {
+
+	}
+
+	// "Double Dispatch" design pattern.
+
+	// Initial collision method.
+	// GameComponent always calls this method to handle collisions.
+	// Each subclass always calls one of the specific methods below.
+	// e.g. Platform.collideWith will just call:
+	// other.collideWithPlatform(this)
+	public void collideWith(GameObject other) {
+
+	}
+
+	// Subclass-specific collision methods.
+	// A RainDrop might not care that it has collided with a platform,
+	// so it might call:
+	// other.collideWithDrop(this)
+	// to let the platform absorb the raindrop.
+	public void collideWithHero(Hero hero) {
+
+	}
+
+	// Beware infinite loops: someone must eventually "handle" the collision.
+	public void collideWithMonster(Monster monster) {
+//		double x1 = this.getPosition().getX();
+//		double y1 = this.getPosition().getY();
+//		double x2 = hero.getCenterPoint().getX();
+//		double y2 = hero.getCenterPoint().getY();
+//		if(Math.abs(x2-x1)<40 && Math.abs(y2-y1)<40){
+//			hero.die();
+//		}
+	}
+
+	// FIXME: are we STILL using Rectangle2D to represent the user's box?
+	public void collideWithRock(Rock rock) {
+
+	}
+
+}

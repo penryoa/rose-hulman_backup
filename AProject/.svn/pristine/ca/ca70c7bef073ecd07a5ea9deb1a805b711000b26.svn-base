@@ -1,0 +1,80 @@
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+
+public class Fygar implements Temporal{
+	private BufferedImage image;
+	public Point position;
+	private static final long UPDATE_INTERVAL_MS = 10;
+	private boolean isPaused = false;
+	
+	public Fygar(Point initialPosition) {
+		this.position = initialPosition;
+		try {
+			image = ImageIO.read(new File("hero.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing hero: " + e);
+		}
+		Runnable tickTock = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(UPDATE_INTERVAL_MS);
+						timePassed();
+					}
+				} catch (InterruptedException exception) {
+					// Stop when interrupted
+				}
+			}
+		};
+		new Thread(tickTock).start();
+	}
+	
+	public void drawCentered(Graphics2D g2) {
+		g2.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+		g2.drawImage(image, 0, 0, null);
+		g2.translate(0, image.getHeight());
+	}
+	
+	public void drawFygar(Graphics2D g2) {
+		g2 = (Graphics2D) g2.create();
+		g2.translate(position.x, position.y);
+		this.drawCentered(g2);
+	}
+
+	@Override
+	public void timePassed() {
+//		if (!this.isPaused) {
+//			for (Temporal t : this.balls) {
+//				t.timePassed();
+//			}
+//		}
+//		this.balls.removeAll(this.ballsToRemove);
+//		this.ballsToRemove.clear();
+//		this.balls.addAll(this.ballsToAdd);
+//		this.ballsToAdd.clear();
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		return this.isPaused;
+	}
+
+}

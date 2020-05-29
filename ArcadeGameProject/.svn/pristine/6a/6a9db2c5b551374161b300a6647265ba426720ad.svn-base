@@ -1,0 +1,9 @@
+import java.awt.Point;
+
+public class Rock1 extends Rock {
+
+	public Rock1(Point initialPosition, World world, String name) {
+		super(initialPosition, world, name);
+	}
+
+}

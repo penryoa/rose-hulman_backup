@@ -1,0 +1,53 @@
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+/**
+ * The viewer sets up the frame and score panel. The different levels are
+ * displayed within this frame.
+ * 
+ * @author penryoa
+ *
+ */
+
+public class DigDugViewer {
+
+	private DigDugComponent c;
+
+	public static final int WIDTH = 480;
+	public static final int HEIGHT = 500;
+
+	public void makeWindow(JFrame frame) {
+
+		frame.setTitle("Dig Dug Project");
+
+		JLabel scoreLabel = new JLabel();
+		scoreLabel.setFont(new Font("Courier New", Font.BOLD, 20));
+		scoreLabel.setForeground(Color.WHITE);
+		scoreLabel.setBackground(Color.BLACK);
+		scoreLabel.setOpaque(true);
+		frame.add(scoreLabel, BorderLayout.NORTH);
+
+		JPanel gamePanel = new JPanel();
+		gamePanel.setBackground(Color.BLACK);
+		this.c = new DigDugComponent(scoreLabel);
+		this.c.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		gamePanel.add(this.c);
+		frame.add(gamePanel, BorderLayout.CENTER);
+
+		DirectionListener direction = new DirectionListener(c);
+
+		frame.addKeyListener(direction);
+
+		frame.setBackground(Color.BLACK);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+}

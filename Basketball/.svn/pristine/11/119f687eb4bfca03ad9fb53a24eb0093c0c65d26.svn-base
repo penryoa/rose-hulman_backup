@@ -1,0 +1,25 @@
+Reflection Questions:
+
+1. How are your two (Warm-Up vs. Stage 1) designs different? Which do you think is superior and why? If you think they are equally good/bad explain why.
+
+	I think they are pretty equal, honestly. I didn't make any changes to the Player and BasketballContest classes because they worked well before, and still do. 
+	The BasketballMain class is definitely different and probably more efficient in Stage 1 than it was in the warm-up. I had to retype chunks of code before, 
+	but it's now much cleaner!
+
+
+2. After implementing your design, did you have to change the original UML? If so, what did you have to change and why did you have to change it? If not, explain how you made your decisions in designing.
+
+	I did have to change the UML slightly, but only the BasketballMain class. In designing the program initially, I tried to get the "big picture" in my mind 
+	and code to fit that "image" in my head. It turns out that that frame of thinking works well for this case!
+
+
+3. If you were to use your original code (from the Warm Up) and try to use it to match the explicit requirements of Stage 1, do you think it would be easier or harder to code than the re-designed UML? Why? (You are permitted to try to actually implement it if you want to in order to help answer this question)
+
+	Because I did not change the Player and BasketballContest classes, it would be harder to have to restart and rework all the problems from before.
+
+
+4. Select two or more specific design principles and discuss how they relate to the your experience in designing and implementing the code for Stage 1.
+
+	The code functions very well, with easy to understand names (at least to me). The nouns have their own classes, each with their own functions that they need to carry out.
+
+

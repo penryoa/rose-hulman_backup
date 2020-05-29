@@ -1,0 +1,27 @@
+package stage1;
+
+/**
+ * A basketball simulator. See the specification.
+ *
+ * @author <Your name here>
+ */
+public class BasketballMain {
+
+	/**
+	 * This method sets up an instance of the BasketballMain class
+	 * 
+	 * @param args   -  not used
+	 */
+	public static void main(String[] args) {
+		// TODO: Solve the problem in the specification.
+		// You may add any other classes you need.
+		
+		// You can use code from the BasketballUtility class if it helps.
+		
+		// Add some code, here in main() is fine, 
+		// to check that it works correctly.
+		
+		
+	
+	}
+}

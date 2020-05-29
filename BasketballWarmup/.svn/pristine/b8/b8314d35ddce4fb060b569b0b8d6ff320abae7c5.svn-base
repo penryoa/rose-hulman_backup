@@ -1,0 +1,40 @@
+package stage1;
+
+public class Player {
+	
+	public String hitsLossesString;
+	public double accuracy;
+	public String name;
+	public double percentageHits;
+	public double hits;
+	public double shots;
+	
+	public Player(String name, double accuracy) {
+		this.name=name;
+		this.accuracy=accuracy;
+		this.hits=0.0;
+		this.shots=0.0;
+		this.hitsLossesString = "";
+	}
+
+
+	public void addLoss() {
+		this.hitsLossesString += "_";
+		this.shots+=1.0;
+		this.percentageHits=(hits/shots);
+	}	
+	
+	public void addHit() {
+		this.hitsLossesString += "X";
+		this.shots+=1.0;
+		this.hits+=1.0;
+		this.percentageHits=(hits/shots);
+	}
+	
+//	public String printReport() {
+//		String report = ("Player: " + this.name + "      " + 
+//						"Accuracy: " + this.accuracy + "      " +
+//						"% of shots hit: " + percentageWins);
+//		return report;
+//	}
+}

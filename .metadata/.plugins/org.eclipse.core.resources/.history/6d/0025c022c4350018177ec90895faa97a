@@ -1,0 +1,266 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/**
+ * 
+ * Implementation of most of the Set interface operations using a Binary Search Tree
+ *
+ * @author Matt Boutell and Olivia Penry.
+ * @param <T>
+ */
+
+public class BinarySearchTree<T> {
+	/* Variables */
+	private BinaryNode root;
+	private final BinaryNode NULL_NODE = new BinaryNode();
+
+	/* Constructor */
+	public BinarySearchTree() {
+		root = NULL_NODE;
+	}
+
+	
+	/**
+	 * BinarySearchTree methods
+	 */
+	
+	// For manual tests only
+	void setRoot(BinaryNode n) {
+		this.root = n;
+	}
+	// Finds the tree size; for test on line 21 of BSTManualTesting.
+	public int size(){
+		return root.sizeHelper();
+	}
+	
+	// Looking for data
+	public boolean containsNonBST(T val) {
+		return this.root.containsNonBSTHelper(val);
+	}
+	
+	// From root to farthest leaf
+	public Object height() {
+		if (this.root == NULL_NODE) {
+			return -1;
+		}
+		int max = 0;
+		return this.root.heightHelper(max, 0);
+	}
+	
+	// Checks if the BST is empty
+	public boolean isEmpty() {
+		return this.root == NULL_NODE;
+	}
+	
+	// Factory return a new instance of an Iterator
+	public Iterator<T> inefficientIterator() {
+		return new ArrayListIterator();
+	}
+	
+	public Iterator<T> preOrderIterator(){
+		return new ArrayIterator();
+	}
+	
+	// toArrayList makes an ArrayList of the nodes, starting at the root.
+	public Object toArrayList() {
+		ArrayListIterator arrIterator = new ArrayListIterator();
+		return arrIterator.toArrayList();
+	}
+	
+	// toArray is pre-order, making an array
+	public Object toArray() {
+		ArrayIterator arrIterator = new ArrayIterator();
+		return arrIterator.toArray();
+	}
+	
+	
+	// Turns the tree into a string
+//	public String toString(){
+//		
+//		BinarySearchTree<T>.ArrayListIterator list = new ArrayListIterator();
+//		
+//		return list.toString();
+//	}
+	
+	
+	
+	/**
+	 * ArrayList Iterator Class
+	 */
+	public class ArrayListIterator implements Iterator<T> {
+		private ArrayList<T> list = new ArrayList<>();
+		private int index;
+		
+		public ArrayListIterator(){
+			index = 0;
+			list = toArrayList();
+			
+		}
+
+		@Override
+		public boolean hasNext() {
+			return index < list.size();
+		}
+
+		// next always returns the current value and moves to the next one
+		@Override
+		public T next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException("No more next");
+			}
+			T temp = list.get(index);
+			index++;
+			return temp;
+		}
+		
+		public ArrayList<T> toArrayList() {
+			ArrayList<T> list = new ArrayList<T>();
+			root.toArrayList(list);
+			return list;
+		}
+	}
+	
+	
+	
+	/**
+	 * Array Iterator Class
+	 */
+	public class ArrayIterator implements Iterator<T> {
+		Object[] objects;
+		int index;
+		
+		public ArrayIterator(){
+			this.index = 0;
+			objects = this.toArray();
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return index < objects.length;
+		}
+
+		// next always returns the current value and moves to the next one
+		@Override
+		public T next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException("No more next");
+			}
+			T temp = (T) objects[index];
+			index++;
+			return temp;
+		}
+		
+		public Object[] toArray(){
+			root.toArray(objects, 0);
+			return objects;
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * Binary Node Class
+	 */
+	
+	// Not private, since we need access for manual testing.
+	class BinaryNode {
+		private T data;
+		private BinaryNode left;
+		private BinaryNode right;
+
+		public BinaryNode() {
+			this.data = null;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+
+		public int heightHelper(int max, int tempMax) {
+			if (this == NULL_NODE) {
+				return max;
+			}
+			
+			if (tempMax > max) {
+				max = tempMax;
+			}
+			
+			return Math.max(this.right.heightHelper(max, tempMax + 1), this.left.heightHelper(max, tempMax + 1));
+		}
+
+		// Recursively finds the size of the tree; for test on line 21 of BSTManualTesting.
+		public int sizeHelper() {
+			if (this == NULL_NODE) {
+				return 0;
+			}
+			return 1 + left.sizeHelper() + right.sizeHelper();
+		}
+		
+		public boolean containsNonBSTHelper(T val) {
+			if (this == NULL_NODE) {
+				return false;
+			}
+			
+			if (this.data.equals(val)) {
+				return true;
+			}
+			
+			return this.right.containsNonBSTHelper(val) || this.left.containsNonBSTHelper(val);
+		}
+		
+//		public String toStringHelper(){
+//			if (this == NULL_NODE) {
+//				return "";
+//			} else if (this)
+//		}
+
+		public BinaryNode(T element) {
+			this.data = element;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+
+		public T getData() {
+			return this.data;
+		}
+
+		public BinaryNode getLeft() {
+			return this.left;
+		}
+
+
+		public BinaryNode getRight() {
+			return this.right;
+		}
+
+		// For manual testing
+		public void setLeft(BinaryNode left) {
+			this.left = left;
+		}
+		
+		public void setRight(BinaryNode right) {
+			this.right = right;
+		}
+		
+		public void toArrayList(ArrayList<T> list) {
+			if (this == NULL_NODE) {
+				return;
+			}
+			left.toArrayList(list);
+			list.add(data);
+			right.toArrayList(list);
+		}
+		
+		public void toArray(Object[] objects, int index) {
+			if (this == NULL_NODE) {
+				return;
+			}
+			left.toArray(objects, index);
+			right.toArray(objects, index);
+			objects[index] = data;
+			index++;
+		}
+		
+	}
+
+}

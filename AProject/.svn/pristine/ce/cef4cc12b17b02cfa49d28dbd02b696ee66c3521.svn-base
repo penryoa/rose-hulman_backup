@@ -1,0 +1,38 @@
+import java.awt.Graphics2D;
+
+
+
+public interface GameObject {
+	void update();
+	
+	void drawOn();
+	
+	boolean shouldRemove();
+	
+	// Called when object is removed.
+	// ie to create the explosion.
+	void onRemove();
+	
+	void drawOn(Graphics2D g2);
+	
+	// "Double Dispatch" design pattern.
+	
+		// Initial collision method.
+		// GameComponent always calls this method to handle collisions.
+		// Each subclass always calls one of the specific methods below.
+		// e.g. Platform.collideWith will just call:
+		// 			other.collideWithPlatform(this)
+		void collideWith(GameObject other);
+		
+		// Subclass-specific collision methods.
+		// A RainDrop might not care that it has collided with a platform,
+		// so it might call:
+		//			other.collideWithDrop(this)
+		// to let the platform absorb the raindrop.
+		void collideWithMonster(Monster monster);
+	
+		// Beware infinite loops: someone must eventually "handle" the collision.
+		void collideWithRock(Rock rock);
+		
+		void collideWithHero(Hero hero);
+}

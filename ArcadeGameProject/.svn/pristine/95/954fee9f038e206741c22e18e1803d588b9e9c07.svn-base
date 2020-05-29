@@ -1,0 +1,70 @@
+
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class DirectionListener implements KeyListener {
+	DigDugComponent c;
+	Point pt;
+	World w;
+
+	public DirectionListener(DigDugComponent c) {
+		this.c = c;
+		this.w = c.getWorld();
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == e.VK_LEFT) {
+			this.c.getWorld().getHero().setIsPaused(false);
+			this.c.getWorld().getHero().setDirection(-1,0);
+//			w.blackSpaces.putIfAbsent(new Point(pt.x, pt.y), new BlackSpace(new Point(pt.x, pt.y)));
+//			w.blackSpaces.putIfAbsent(new Point(pt.x + 10, pt.y), new BlackSpace(new Point(pt.x + 10, pt.y)));
+		}
+
+		if (e.getKeyCode() == e.VK_RIGHT) {
+			this.c.getWorld().getHero().setIsPaused(false);
+			this.c.getWorld().getHero().setDirection(1,0);
+//			w.blackSpaces.putIfAbsent(new Point(pt.x, pt.y), new BlackSpace(new Point(pt.x, pt.y)));
+//			w.blackSpaces.putIfAbsent(new Point(pt.x - 10, pt.y), new BlackSpace(new Point(pt.x - 10, pt.y)));
+		}
+
+		if (e.getKeyCode() == e.VK_UP) {
+			this.c.getWorld().getHero().setIsPaused(false);
+			this.c.getWorld().getHero().setDirection(0,-1);
+//			w.blackSpaces.putIfAbsent(new Point(pt.x, pt.y), new BlackSpace(new Point(pt.x, pt.y)));
+//			w.blackSpaces.putIfAbsent(new Point(pt.x, pt.y + 10), new BlackSpace(new Point(pt.x, pt.y + 10)));
+		}
+
+		if (e.getKeyCode() == e.VK_DOWN) {
+			this.c.getWorld().getHero().setIsPaused(false);
+			this.c.getWorld().getHero().setDirection(0,1);
+//			w.blackSpaces.putIfAbsent(new Point(pt.x, pt.y), new BlackSpace(new Point(pt.x, pt.y)));
+//			w.blackSpaces.putIfAbsent(new Point(pt.x, pt.y - 10), new BlackSpace(new Point(pt.x, pt.y - 10)));
+		}
+
+		if (e.getKeyCode() == e.VK_U) {
+			w.changeLevel(1);
+		}
+
+		if (e.getKeyCode() == e.VK_D) {
+			w.changeLevel(-1);
+		}
+
+		if (e.getKeyCode() == e.VK_SPACE) {
+//			w.getHero().drawShooter((Graphics2D) c.getGraphics());
+			this.c.repaint();
+
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+}

@@ -1,0 +1,85 @@
+import java.awt.Graphics2D;
+
+public class Pookie extends Monster{
+
+	@Override
+	public void timePassed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawOn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean shouldRemove() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onRemove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void drawOn(Graphics2D g2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collideWith(GameObject other) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collideWithMonster(Monster monster) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collideWithRock(Rock rock) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collideWithHero(Hero hero) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+}

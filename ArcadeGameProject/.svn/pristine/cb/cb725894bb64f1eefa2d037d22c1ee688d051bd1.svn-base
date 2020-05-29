@@ -1,0 +1,10 @@
+import java.awt.Point;
+
+public class Creeper extends Monster{
+
+	// ======= Creeper Constructor ======= \\
+	public Creeper(Point centerPoint, World world, String name) {
+		super(centerPoint, world, name);
+	}
+
+}

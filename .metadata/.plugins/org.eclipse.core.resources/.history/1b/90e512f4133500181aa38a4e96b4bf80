@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class TestingOneTwoThree {
+
+	public static void main(String[] args) {
+		int time_units = 400;
+		int times_to_sim = 500;
+		ArrayList<Integer> results = new ArrayList<>();
+
+		//simulateInTimeUnits(time_units);
+		simulateXTimes(times_to_sim, time_units, results);
+
+	}
+
+	public static int simulateInTimeUnits(int time_units) {
+		int total_displacement=0;
+		for (int i = 0; i < time_units; i++) {
+			int displacement = getRandomDisplacement();
+			total_displacement += displacement;
+		}
+		
+		return total_displacement;
+	}
+
+	public static void simulateXTimes(int times_to_sim, int time_units, ArrayList<Integer> results) {
+		for (int i = 0; i < times_to_sim; i++) {
+			results.add(simulateInTimeUnits(time_units));
+			System.out.println("Result #" + i + ": " + results.get(i));
+		}
+		
+	}
+
+	public static int getRandomDisplacement() {
+		int displacement;
+
+		Random rand = new Random();
+		double r = rand.nextDouble();
+
+		if (r > 0.5) {
+			displacement = 1;
+		} else {
+			displacement = -1;
+		}
+		
+		return displacement;
+	}
+
+}

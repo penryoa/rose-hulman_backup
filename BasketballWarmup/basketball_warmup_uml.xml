@@ -1,0 +1,29 @@
+<diagram program="umletino" version="14.2"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>590</x><y>140</y><w>130</w><h>90</h></coordinates><panel_attributes>BasketballUtility
+--
+RANDOM_SPEED
+rand
+-
+getRandomDouble()
+main()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>140</y><w>100</w><h>50</h></coordinates><panel_attributes>BasketballMain
+--
+main()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>180</x><y>300</y><w>290</w><h>140</h></coordinates><panel_attributes>BasketballContest
+--
+contestTitle
+shotsPerContest
+players: Hashmap&lt;name: Player, accuracy: double&gt;
+--
+addPlayer(name: String, accuracy: double)
+playerScoreReport(player:String)
+playerPercentageHit(player:String)
+playerMaxStreak(player: String)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>580</x><y>300</y><w>210</w><h>140</h></coordinates><panel_attributes>Player
+--
+hitsMissesString
+accuracy
+hits
+shotsTaken
+percentageHits
+--
+addMiss()
+addHit()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>300</y><w>140</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>120;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>180</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;-
+m1=*</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>370</x><y>140</y><w>240</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>220;10;10;10</additional_attributes></element></diagram>

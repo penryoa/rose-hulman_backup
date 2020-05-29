@@ -1,0 +1,32 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class BlackSpace {
+	
+	public Point position;
+	
+	private BufferedImage blackSpcaceImage;
+	
+	public BlackSpace(Point initialPosition){
+		this.position = initialPosition;
+		try {
+			this.blackSpcaceImage = ImageIO.read(new File("black.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing blackSpcace: "+e);
+		}
+	}	
+	
+	public void drawBlackSpace(Graphics2D g2){
+		g2 = (Graphics2D) g2.create();
+		g2.translate(position.x-20, position.y-20);
+//		this.cat.drawCentered(g2);
+		g2.drawImage(blackSpcaceImage, 0, 0, null);
+	}
+}
+

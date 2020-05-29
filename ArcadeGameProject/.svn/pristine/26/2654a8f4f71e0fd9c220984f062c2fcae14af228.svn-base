@@ -1,0 +1,105 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Pookie extends Monster{
+	
+	// ======= Pookie Constructor ======= \\
+
+	public Pookie(Point centerPoint, World world, String name) {
+		super(centerPoint, world, name);
+	}
+	
+	@Override
+	public void timePassed() {
+		if(this.isDying==false) {
+			if(this.hit==false) {
+				this.timeCounter++;
+				if (this.timeCounter > 30) {
+					this.isGhost = true;
+					this.name = "ghost";
+					this.image = this.getImage();
+				} else {
+					this.isGhost = false;
+					this.name = this.originalName;
+					this.image = this.getImage();
+				}
+
+				Point leftPt = new Point(this.centerPoint.x + 10, this.centerPoint.y);
+				Point downPt = new Point(this.centerPoint.x, this.centerPoint.y + 10);
+				Point rightPt = new Point(this.centerPoint.x - 10, this.centerPoint.y);
+				Point upPt = new Point(this.centerPoint.x, this.centerPoint.y - 10);
+
+				if (this.isGhost == false) {
+					if (this.hit == false) {
+						if (left == false && this.blackSpaces.containsKey(leftPt)) {
+							this.right = true;
+							this.moveBy(10, 0);
+							return;
+						} else {
+							this.right = false;
+						}
+
+						if (up == false && this.blackSpaces.containsKey(downPt)) {
+							this.down = true;
+							this.moveBy(0, 10);
+							return;
+						} else {
+							this.down = false;
+						}
+
+						if (this.blackSpaces.containsKey(rightPt)) {
+							this.left = true;
+							this.moveBy(-10, 0);
+							return;
+						} else {
+							this.left = false;
+						}
+
+						if (this.blackSpaces.containsKey(upPt)) {
+							this.up = true;
+							this.moveBy(0, -10);
+							return;
+						} else {
+							this.up = false;
+						}
+					}
+				} else {
+					if (this.getCenterPoint().getX() - this.world.hero.getCenterPoint().getX() > 0) {
+						this.moveBy(-10, 0);
+					} else {
+						this.moveBy(10, 0);
+					}
+					if (this.getCenterPoint().getY() - this.world.hero.getCenterPoint().getY() > 0) {
+						this.moveBy(0, -10);
+					} else {
+						this.moveBy(0, 10);
+					}
+					if (this.blackSpaces.containsKey(this.getCenterPoint())) {
+						this.timeCounter = 0;
+					}
+				}
+			}
+			this.hit = false;
+		}else {
+			this.dyingCount++;
+			if (this.dyingCount<2) {
+				this.name = "pookieDying1";
+				this.image = this.getImage();
+			} 
+			else if(this.dyingCount<4){
+				this.name = "pookieDying2";
+				this.image = this.getImage();
+			}
+			else {
+				this.world.monsters.remove(this);
+				this.world.addToScore(300);
+			}
+		}
+	}
+}

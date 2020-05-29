@@ -1,0 +1,8 @@
+import java.awt.Point;
+
+public class MasterSword extends Fruit{
+
+	public MasterSword(Point center, World world, String name) {
+		super(center, world, name);
+	}
+}

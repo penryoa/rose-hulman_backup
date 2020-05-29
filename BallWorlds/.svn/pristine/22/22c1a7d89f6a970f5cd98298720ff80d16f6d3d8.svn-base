@@ -1,0 +1,92 @@
+package ballworlds;
+
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
+import util.Random;
+
+public class Exploder extends AbstractBouncer {
+
+	private Color color;
+	private int size;
+	private int vX;
+	private int vY;
+	double height;
+	double width;
+	private boolean isMaxSize;
+	private int maxSize;
+	private Point2D currentPos;
+
+	public Exploder(BallEnvironment world) {
+		super(world);
+		this.setCenterPoint(world.getCenterPoint());
+		this.color = new Color(Random.randRange(0, 255), Random.randRange(0, 255), Random.randRange(0, 255));
+		this.vX = Random.randRange(-5, 5);
+		this.vY = Random.randRange(-5, 5);
+		if (this.vX == 0) {
+			this.vX = Random.randRange(-5, 5);
+		}
+		if (this.vY == 0) {
+			this.vY = Random.randRange(-5, 5);
+		}
+		this.size = 15;
+		this.maxSize = Random.randRange(2, 10) * this.size;
+		this.height = world.getSize().getHeight();
+		this.width = world.getSize().getWidth();
+		this.currentPos = this.getCenterPoint();
+	}
+	
+	public Exploder(BallEnvironment world, Point2D inPoint) {
+		super(world);
+		this.setCenterPoint(inPoint);
+		this.color = new Color(59, 243, 243);
+		this.maxSize = Random.randRange(2, 10) * this.size;
+	}
+
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+
+	@Override
+	public void updatePosition() {
+		super.updatePosition();
+		this.currentPos = super.getCenterPoint();
+	}
+
+	@Override
+	public void updateSize() {
+		if (this.size == this.maxSize) {
+			this.isMaxSize = true;
+		}
+		if (! this.isMaxSize) {
+			this.size++;
+		} else {
+			this.die();
+			Point2D deathPoint = super.getCenterPoint();
+			Exploder exp1 = new Exploder(this.getWorld(), deathPoint);
+			Exploder exp2 = new Exploder(this.getWorld(), deathPoint);
+			this.getWorld().addBall(exp1);
+			this.getWorld().addBall(exp2);
+			this.isMaxSize = false;
+		}
+		
+	}
+	
+
+
+	@Override
+	public void updateColor() {
+	}
+
+	@Override
+	public double getDiameter() {
+		return this.size;
+	}
+	
+	@Override
+	public void die() {
+		this.getWorld().removeBall(this);
+	}
+
+}

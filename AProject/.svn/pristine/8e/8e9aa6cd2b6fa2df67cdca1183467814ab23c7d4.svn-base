@@ -1,0 +1,64 @@
+import java.awt.geom.Point2D;
+
+public abstract class MovingObject {
+
+	public Point2D centerPoint;
+	public Level level;
+	public DigDugComponent c;
+	public boolean isPaused;
+
+	public MovingObject(Level level, DigDugComponent c) {
+		this.level = level;
+		this.c = c;
+		this.isPaused = false;
+	}
+
+	public MovingObject(Level level, Point2D centerPoint, DigDugComponent c) {
+		this.centerPoint = centerPoint;
+		this.level = level;
+		this.c = c;
+		this.isPaused = false;
+	}
+
+	public void setCenterPoint(Point2D centerPoint) {
+		this.centerPoint = centerPoint;
+	}
+
+	public Level getLevel() {
+		return this.level;
+	}
+
+	public int timePassed() {
+		return 0;
+	}
+
+	public void die() {
+
+	}
+
+	public boolean getIsPaused() {
+		return this.isPaused;
+
+	}
+
+	public void setIsPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
+	public void moveTo(Point2D point) {
+		this.centerPoint = point;
+	}
+
+	public Point2D getCenterPoint() {
+		return this.centerPoint;
+	}
+
+	public void updatePosition() {
+
+	}
+
+	public void updateSize() {
+
+	}
+
+}

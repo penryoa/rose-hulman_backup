@@ -1,0 +1,21 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Rock extends GameObject {	
+	// ======= Rock Constructor ======= \\
+
+	public Rock(Point initialPosition, World world, String name){
+		super(initialPosition, world, name);
+	}
+
+	@Override
+	public void timePassed() {
+	}	
+}

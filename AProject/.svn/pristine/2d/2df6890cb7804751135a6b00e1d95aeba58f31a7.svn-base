@@ -1,0 +1,17 @@
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+
+public abstract class Monster implements Temporal, GameObject{
+
+	public Point position;
+	private BufferedImage image;
+	private boolean isPaused = false;
+
+	
+	public void updatePosition(int dx, int dy) {
+		this.position = new Point(position.x + dx, position.y + dy);
+	}
+	
+	
+	
+}

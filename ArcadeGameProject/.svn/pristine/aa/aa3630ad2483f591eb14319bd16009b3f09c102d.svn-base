@@ -1,0 +1,495 @@
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+public class World implements Drawable, Temporal {
+
+	private static final long UPDATE_INTERVAL_MS = 10;
+	private boolean isPaused = false;
+	private BufferedImage image;
+	private Hero hero;
+	private Rock rock;
+	private Monster monster;
+	public Shape background;
+	DigDugComponent c;
+	private int level = 1;
+
+	private final List<GameObject> gameObjects = new ArrayList<>();
+	private final List<GameObject> gameObjectsToAdd = new ArrayList<>();
+	private final List<GameObject> gameObjectsToDelete = new ArrayList<>();
+
+	public World(DigDugComponent digDugComponent) {
+		this.c = digDugComponent;
+
+		this.background = new Rectangle2D.Double(0, 0, 620, 620);
+		try {
+			this.image = ImageIO.read(new File("bkgd1.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing dirt: " + e);
+		}
+		this.hero = new Hero(new Point2D.Double(230, 230), this);
+		this.addGameObject(this.hero);
+		this.rock =new Rock(new Point2D.Double(200, 400), this);
+		this.addGameObject(this.rock);
+//		this.monster= new Monster(new Point2D.Double(300, 400), this);
+//		this.addGameObject(this.monster);
+		// this.gameObjectsToAdd.add(this.monster);
+
+		// BlackSpace blackSpace = new BlackSpace(hero.position);
+
+		Runnable tickTock = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(UPDATE_INTERVAL_MS);
+						timePassed();
+					}
+				} catch (InterruptedException exception) {
+					// Stop when interrupted
+				}
+			}
+		};
+		new Thread(tickTock).start();
+	}
+
+	// public synchronized List<Drawable> getDrawableParts() {
+	// return new ArrayList<Drawable>(this.balls);
+	// }
+
+	//
+
+	public void drawLevel(Graphics2D g2) {
+		g2.drawImage(this.image, 100, 120, null);
+	}
+
+	public void changeLevel(int num) {
+
+//		if (this.level + num >= 1 && this.level + num <= 4) {
+//			this.level += num;
+//			try {
+//				this.image = ImageIO.read(new File("bkgd" + this.level + ".png"));
+//
+//			} catch (IOException e) {
+//				throw new RuntimeException("Error in drawing: " + e);
+//			}
+//		}
+	}
+
+	public void drawBackground(Graphics2D g2) {
+		g2.setColor(Color.BLACK);
+		g2.draw(this.background);
+		g2.fill(this.background);
+	}
+
+	public synchronized List<Drawable> getDrawableParts() {
+
+		return new ArrayList<Drawable>(this.gameObjects);
+	}
+
+	public Hero getHero() {
+		return this.hero;
+	}
+	
+	public Rock getRock() {
+		return this.rock;
+	}
+	
+	public Monster getMonster() {
+		return this.monster;
+	}
+	// public Rock getRock() {
+	// return this.rock;
+	// }
+	//
+	// 
+	@Override
+	public BufferedImage getImage() {
+		// TODO Auto-generated method stub.
+		return this.image;
+	}
+
+	@Override
+	public Dimension getDimension() {
+		// TODO Auto-generated method stub.
+		Dimension dim = new Dimension(460, 460);
+		return dim;
+	}
+
+	@Override
+	public Point2D getCenterPoint() {
+		// TODO Auto-generated method stub.
+		Point2D center = new Point2D.Double(260, 360);
+		return center;
+	}
+
+	public boolean isInsideWorldX(Point2D point) {
+		return point.getX() >= 40 && point.getX() <= 480;
+	}
+
+	public boolean isInsideWorldY(Point2D point) {
+		return point.getY() >= 140 && point.getY() <= 580;
+	}
+
+	public boolean isInsideWorld(Point2D point) {
+		return isInsideWorldX(point) && isInsideWorldY(point);
+	}
+
+	public synchronized void addGameObject(GameObject object) {
+		this.gameObjectsToAdd.add(object);
+	}
+
+	public synchronized void deleteGameObject(GameObject object) {
+		this.gameObjectsToDelete.add(object);
+	}
+
+	
+	public synchronized void timePassed() {
+		if (!this.isPaused) {
+			for (Temporal g : this.gameObjects) {
+				g.timePassed();
+			}
+			// for (Temporal t : this.fygars) {
+			// (t).timePassed();
+			// }
+
+		}
+		this.gameObjects.removeAll(this.gameObjectsToDelete);
+		this.gameObjectsToDelete.clear();
+
+		this.gameObjects.addAll(this.gameObjectsToAdd);
+		this.gameObjectsToAdd.clear();
+
+		// this.fygars.removeAll(this.fygarsToRemove);
+		// this.fygarsToRemove.clear();
+		// this.fygars.addAll(this.fygarsToAdd);
+		// this.fygarsToAdd.clear();
+	}
+
+	// Temporal
+	@Override
+	public void die() {
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		return this.isPaused;
+	}
+
+//	// ======= Important Objects ======= \\
+//
+//	private static final long UPDATE_INTERVAL_MS = 300;
+//	private boolean isPaused = false;
+//	private BufferedImage image;
+//	public Shape background;
+//	DigDugComponent c;
+//	private Level level;
+//	private int levelNum = 1;
+//	private Hero hero;
+//	public HashMap<Point, BlackSpace> blackSpaces = new HashMap<>();
+//	private ArrayList<Monster> monsters = new ArrayList<>();
+//	private ArrayList<Rock> rocks = new ArrayList<>();
+//	private ArrayList<Drawable> drawables = new ArrayList<>();
+//	// private ArrayList<GameObject> gameObjects = new ArrayList<>();
+//
+//	// ======= World Constructor ======= \\
+//
+//	public World(DigDugComponent digDugComponent) {
+//		this.c = digDugComponent;
+//
+//		try {
+//			this.level = new Level((Graphics2D) c.getGraphics());
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+//
+//		this.background = new Rectangle2D.Double(0, 0, 620, 620);
+//		try {
+//			this.image = ImageIO.read(new File("bkgd1.png"));
+//		} catch (IOException e) {
+//			throw new RuntimeException("Error drawing background: " + e);
+//		}
+//
+//		this.hero = new Hero(new Point(200, 500), this);
+//
+//		this.setLevelObjects();
+//
+//		// this.rocks.add(new Rock(new Point(300, 300), this));
+//		// this.monsters.add(new Fygar(new Point(100, 200), this));
+//
+//		// BlackSpace blackSpace = new BlackSpace(hero.position);
+//		// Point pt1 = new Point(110, 200);
+//		// Point pt2 = new Point(120, 200);
+//		// Point pt3 = new Point(130, 200);
+//		// Point pt4 = new Point(140, 200);
+//		// BlackSpace blackSpace1 = new BlackSpace(pt1);
+//		// BlackSpace blackSpace2 = new BlackSpace(pt2);
+//		// BlackSpace blackSpace3 = new BlackSpace(pt3);
+//		// BlackSpace blackSpace4 = new BlackSpace(pt4);
+//
+//		// this.blackSpaces.add(blackSpace);
+//		// this.blackSpaces.put(pt1, blackSpace1);
+//		// this.blackSpaces.put(pt2, blackSpace2);
+//		// this.blackSpaces.put(pt3, blackSpace3);
+//		// this.blackSpaces.put(pt4, blackSpace4);
+//		for (Monster m : monsters) {
+//			m.setBlackSpace(blackSpaces);
+//		}
+//
+//		Runnable tickTock = new Runnable() {
+//			@Override
+//			public void run() {
+//				try {
+//					while (true) {
+//						Thread.sleep(UPDATE_INTERVAL_MS);
+//						timePassed();
+//					}
+//				} catch (InterruptedException exception) {
+//					// Stop when interrupted
+//				}
+//			}
+//		};
+//		new Thread(tickTock).start();
+//	}
+//
+//	// public synchronized List<Drawable> getDrawableParts() {
+//	// return new ArrayList<Drawable>(this.balls);
+//	// }
+//
+//	// ======= Temporal Methods ======= \\
+//
+//	public synchronized void timePassed() {
+//		if (!this.isPaused) {
+//			for (Monster m : this.monsters) {
+//				m.timePassed();
+//			}
+//			// The "drawDrablesCentered" may not be needed; testing.
+//			this.drawDrawablesCentered((Graphics2D) c.getGraphics());
+//			this.c.repaint();
+//
+//			for (Monster m : this.monsters) {
+//				if (Math.abs(this.hero.getCenterPoint().x - m.getPosition().x) < 40
+//						&& Math.abs(this.hero.getCenterPoint().y - m.getPosition().y) < 40) {
+//					this.hero.collideWithMonster(m);
+//					this.changeLevel(0);
+//				}
+//			}
+//		}
+//		// this.monsters.removeAll(this.monstersToRemove);
+//		// this.monstersToRemove.clear();
+//		// this.monsters.addAll(this.monstersToAdd);
+//		// this.monstersToAdd.clear();
+//	}
+//
+//	@Override
+//	public void die() {
+//	}
+//
+//	@Override
+//	public void setIsPaused(boolean isPaused) {
+//	}
+//
+//	@Override
+//	public boolean getIsPaused() {
+//		return false;
+//	}
+//
+//	// ======= Other Methods ======= \\
+//
+//	// public void drawBackground(Graphics2D g2) {
+//	// g2.setColor(Color.BLACK);
+//	// g2.draw(background);
+//	// g2.fill(background);
+//	// }
+//	//
+//	// public void drawLevel(Graphics2D g2) {
+//	// g2.drawImage(this.image, 20, 120, null);
+//	// for (Point keys : blackSpaces.keySet()) {
+//	// blackSpaces.get(keys).drawBlackSpace(g2);
+//	// }
+//	//
+//	// }
+//
+//	public void drawBackground(Graphics2D g2) {
+//		g2.setColor(Color.BLACK);
+//		g2.draw(background);
+//		g2.fill(background);
+//	}
+//
+//	public void drawDirtImage(Graphics2D g2) {
+//		g2.drawImage(this.level.image, 20, 120, null);
+//	}
+//
+//	public void drawDrawablesCentered(Graphics2D g2) {
+//		for (BlackSpace bs : this.blackSpaces.values()) {
+//			bs.drawCentered(g2);
+//		}
+//		
+//		for (Monster m : this.monsters){
+//			m.setBlackSpace(this.blackSpaces);
+//		}
+//
+//		for (Drawable o : this.drawables) {
+//			o.drawCentered(g2);
+//		}
+//	}
+//
+//	public void changeLevel(int num) {
+//
+//		Graphics2D g2 = (Graphics2D) this.c.getGraphics();
+//
+//		if (this.level.canChangeLevel(num)) {
+//			this.hero.rocks.clear();
+//			this.monsters.clear();
+//			this.rocks.clear();
+//			this.blackSpaces.clear();
+//			// this.gameObjects.clear();
+//			this.drawables.clear();
+//
+//			try {
+//				this.level.changeLevel(num);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			this.setLevelObjects();
+//
+//			this.drawDirtImage(g2);
+//			this.drawDrawablesCentered(g2);
+//
+//			this.c.repaint();
+//		}
+//	}
+//
+//	public void setLevelObjects() {
+//
+//		for (Point p : this.level.tunnelLocations) {
+//			BlackSpace newSpace = new BlackSpace(p);
+//			this.blackSpaces.put(p, newSpace);
+//			// this.drawables.add(newSpace);
+//		}
+//
+//		for (Point p : this.level.fygarLocations) {
+//			Fygar newFygar = new Fygar(p, this);
+//			this.monsters.add(newFygar);
+//			this.drawables.add(newFygar);
+//		}
+//
+//		for (Point p : this.level.pookieLocations) {
+//			Pookie newPookie = new Pookie(p, this);
+//			this.monsters.add(newPookie);
+//			this.drawables.add(newPookie);
+//		}
+//
+//		for (Point p : this.level.rockLocations) {
+//			Rock newRock = new Rock(p, this);
+//			this.rocks.add(newRock);
+//			this.drawables.add(newRock);
+//			// this.gameObjects.add(newRock);
+//		}
+//
+//		for (Monster m : this.monsters) {
+//			m.setBlackSpace(this.blackSpaces);
+//		}
+//
+//		this.hero.rocks = this.rocks;
+//		this.hero.monsters = this.monsters;
+//		this.hero.centerPoint = this.level.heroLocation;
+//		this.drawables.add(this.hero);
+//
+//	}
+//
+//	// if (this.level + num >= 1 && this.level + num <= 4) {
+//	// this.level += num;
+//	// try {
+//	// this.image = ImageIO.read(new File("bkgd" + this.level + ".png"));
+//	// this.blackSpaces.clear();
+//	// drawLevel((Graphics2D) this.c.getGraphics());
+//	//
+//	// this.getHero().centerPoint = new Point(200, 500);
+//	// BlackSpace blackSpace = new BlackSpace(this.getHero().centerPoint);
+//	// this.blackSpaces.put(this.getHero().centerPoint, blackSpace);
+//	//
+//	// for (int i = 0; i < monsters.size(); i++) {
+//	// this.monsters.get(i).setBlackSpace(this.blackSpaces);
+//	// }
+//	//
+//	// for (int i = 0; i < monsters.size(); i++) {
+//	// this.monsters.get(i).drawCentered((Graphics2D) this.c.getGraphics());
+//	// }
+//	//
+//	// for (int i = 0; i < rocks.size(); i++) {
+//	// this.rocks.get(i).drawCentered((Graphics2D) this.c.getGraphics());
+//	// }
+//	//
+//	// this.getHero().drawCentered(((Graphics2D) this.c.getGraphics()));
+//	//
+//	// } catch (IOException e) {
+//	// throw new RuntimeException("Error in drawing: " + e);
+//	// }
+//	// }
+//	// }
+//
+//	// ======= Getter Methods ======= \\
+//
+//	public Hero getHero() {
+//		return hero;
+//	}
+//
+//	public ArrayList<Rock> getRocks() {
+//		return rocks;
+//	}
+//
+//	public ArrayList<Monster> getMonsters() {
+//		return monsters;
+//	}
+//
+//	public HashMap<Point, BlackSpace> getBlackSpcaces() {
+//		return blackSpaces;
+//	}
+//
+//	public synchronized ArrayList<GameObject> getGameObjects() {
+//		ArrayList<GameObject> newList = new ArrayList<>();
+//		newList.addAll(monsters);
+//		newList.addAll(rocks);
+//		newList.add(hero);
+//		return newList;
+//	}
+//
+//	public ArrayList<Drawable> getDrawables() {
+//		return this.drawables;
+//	}
+//
+//	@Override
+//	public BufferedImage getImage() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public Dimension getDimension() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public Point2D getCenterPoint() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+}

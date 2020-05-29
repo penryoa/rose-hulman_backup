@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ArcadeGameProject/hero sprite with blk bkg.png&apos; to &apos;hero.png&apos;" description="Rename resource &apos;hero sprite with blk bkg.png&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="hero sprite with blk bkg.png" name="hero.png" stamp="1517588973229" updateReferences="true"/>
+</session>

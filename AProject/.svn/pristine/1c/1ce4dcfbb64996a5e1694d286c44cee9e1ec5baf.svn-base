@@ -1,0 +1,46 @@
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+public class Hero {
+	private BufferedImage image;
+	public Point position;
+	private BlackSpace blackSpace;
+
+	public Hero(Point initialPosition) {
+		this.position = initialPosition;
+		try {
+			image = ImageIO.read(new File("hero.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing hero: " + e);
+		}
+	}
+
+	public void drawCentered(Graphics2D g2) {
+		g2.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+		g2.drawImage(image, 0, 0, null);
+		g2.translate(0, image.getHeight());
+	}
+
+	public void drawHero(Graphics2D g2) {
+		g2 = (Graphics2D) g2.create();
+		g2.translate(position.x, position.y);
+		this.drawCentered(g2);
+	}
+
+	public void moveBy(int dx, int dy) {
+		if (this.getCenterPoint().getX() + dx > 30 && this.getCenterPoint().getX() + dx < 490
+				&& this.getCenterPoint().getY() + dy > 130 && this.getCenterPoint().getY() + dy < 590) {
+			this.position = new Point(position.x + dx, position.y + dy);
+		}
+	}
+
+	public Point2D getCenterPoint() {
+		return this.position;
+	}
+
+}

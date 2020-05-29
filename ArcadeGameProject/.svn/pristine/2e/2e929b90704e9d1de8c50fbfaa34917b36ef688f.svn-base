@@ -1,0 +1,104 @@
+import java.awt.Dimension;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public abstract class GameObject implements Drawable,Temporal {
+
+	// ======= Important Objects ======= \\
+
+	private Point2D centerPoint;
+	private World world;
+	private String name;
+	private Dimension dimension;
+	
+
+	// ======= GameObject Constructor ======= \\
+
+	public GameObject(Point2D center, World world) {
+		this.centerPoint = center;
+		this.world = world;
+		this.dimension=new Dimension(40,40);
+	}
+
+	// ======= Other Methods ======= \\
+	
+	@Override
+	public Point2D getCenterPoint() {
+		return this.centerPoint;
+	}
+	
+	public void setCenterPoint(Point2D point) {
+		this.centerPoint = point;
+	}
+	
+	@Override
+	public BufferedImage getImage() {
+		// TODO Auto-generated method stub.
+		String pictureName = this.name + ".png";
+		try {
+			BufferedImage picture = ImageIO.read(new File(pictureName));
+			return picture;
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing Object: " + e);
+		}
+	}
+
+	@Override
+	public Dimension getDimension() {
+		// TODO Auto-generated method stub.
+		return this.dimension;
+	}
+
+	public void setDimension(int dimenx, int dimeny) {
+		this.dimension = new Dimension(50, 60);
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void collideWith(GameObject other) {
+
+	}
+
+	// Subclass-specific collision methods.
+	// A RainDrop might not care that it has collided with a platform,
+	// so it might call:
+	// other.collideWithDrop(this)
+	// to let the platform absorb the raindrop.
+	public void collideWithHero(Hero hero) {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = hero.getCenterPoint().getX();
+		double y2 = hero.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) < 40 && Math.abs(y2 - y1) < 40) {
+			hero.die();
+		}
+	}
+
+	// Beware infinite loops: someone must eventually "handle" the collision.
+	public void collideWithMonster(Monster monster) {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = monster.getCenterPoint().getX();
+		double y2 = monster.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) < 40 && Math.abs(y2 - y1) < 40) {
+			this.world.getHero().die();
+		}
+	}
+
+	// FIXME: are we STILL using Rectangle2D to represent the user's box?
+	public void collideWithRock(Rock rock) {
+		double x1 = this.getCenterPoint().getX();
+		double y1 = this.getCenterPoint().getY();
+		double x2 = rock.getCenterPoint().getX();
+		double y2 = rock.getCenterPoint().getY();
+		if (Math.abs(x2 - x1) < 40 && Math.abs(y2 - y1) < 40) {
+			this.world.getHero().die();
+		}
+	}
+}

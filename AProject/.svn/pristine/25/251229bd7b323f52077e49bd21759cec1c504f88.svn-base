@@ -1,0 +1,88 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import events.CatComponent;
+
+public class DigDugViewer {
+	/**
+	 * The width of the frame.
+	 */
+	public static final int WIDTH = 400;
+	/**
+	 * The height of the frame.
+	 */
+	public static final int HEIGHT = 300;
+	
+	public void makeWindow() {
+		
+		JFrame frame = new JFrame();
+
+		frame.setTitle("Curie Cat");
+
+		CatComponent c = new CatComponent();
+
+		c.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		frame.add(c);
+
+		JPanel panel = new JPanel();
+
+		JButton leftButton = new JButton("Left");
+		JButton rightButton = new JButton("Right");
+		JButton upButton = new JButton("Up");
+		JButton downButton = new JButton("Down");
+
+		class ButtonHandler implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JButton clickedButton = (JButton) event.getSource();
+				
+				if (clickedButton.equals(leftButton)) {
+					Graphics2D g2 = (Graphics2D) c.getGraphics();
+					c.updatePosition(-10, 0);
+					c.update(g2);
+				}
+				if (clickedButton.equals(rightButton)) {
+					Graphics2D g2 = (Graphics2D) c.getGraphics();
+					c.updatePosition(10, 0);
+					c.update(g2);
+				}
+				if (clickedButton.equals(upButton)) {
+					Graphics2D g2 = (Graphics2D) c.getGraphics();
+					c.updatePosition(0, -10);
+					c.update(g2);
+				}
+				if (clickedButton.equals(downButton)) {
+					Graphics2D g2 = (Graphics2D) c.getGraphics();
+					c.updatePosition(0, 10);
+					c.update(g2);
+				}
+
+			}
+		}
+
+		ButtonHandler handler = new ButtonHandler();
+
+		leftButton.addActionListener(handler);
+		rightButton.addActionListener(handler);
+		upButton.addActionListener(handler);
+		downButton.addActionListener(handler);
+
+		frame.add(panel, BorderLayout.SOUTH);
+		panel.add(leftButton);
+		panel.add(rightButton);
+		panel.add(upButton);
+		panel.add(downButton);
+
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+}

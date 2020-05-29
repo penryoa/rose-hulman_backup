@@ -1,0 +1,183 @@
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+public class World implements Temporal {
+
+	// ======= Important Objects ======= \\
+
+	DigDugComponent c;
+	private static final long UPDATE_INTERVAL_MS = 300;
+	private Level level;
+	private BufferedImage image;
+	private Shape background;
+	
+	protected boolean isPaused = false;
+	protected Hero hero;
+	protected HashMap<Point, BlackSpace> blackSpaces = new HashMap<>();
+	protected ArrayList<Monster> monsters = new ArrayList<>();
+	protected ArrayList<Rock> rocks = new ArrayList<>();
+	protected ArrayList<Fruit> fruits = new ArrayList<>();
+	protected ArrayList<GameObject> objects = new ArrayList<>();
+
+
+	// ======= World Constructor ======= \\
+
+	public World(DigDugComponent digDugComponent) {
+		this.hero = new Hero(new Point(200, 500), this, "hero");
+		this.c = digDugComponent;
+		this.initialize();
+		this.setLevelObjects();
+
+		Runnable tickTock = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(UPDATE_INTERVAL_MS);
+						timePassed();
+					}
+				} catch (InterruptedException exception) {
+				}
+			}
+		};
+		new Thread(tickTock).start();
+	}
+	// ======= Temporal Methods ======= \\
+
+	public synchronized void timePassed() {
+		if (!this.isPaused) {
+			for (int i=0;i<this.monsters.size();i++) {
+				this.monsters.get(i).collideWithHero(hero);
+				this.monsters.get(i).timePassed();
+			}
+			for (int i=0;i<this.rocks.size();i++) {
+				this.rocks.get(i).timePassed();
+			}
+			for (int i=0;i<this.fruits.size();i++) {
+				this.fruits.get(i).timePassed();
+			}
+			this.c.repaint();
+		}
+	}
+	// ======= Other Methods ======= \\
+
+	public void initialize() {
+		try {
+			this.level = new Level((Graphics2D) c.getGraphics());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		this.background = new Rectangle2D.Double(0, 0, 620, 620);
+		try {
+			this.image = ImageIO.read(new File("bkgd1.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing background: " + e);
+		}
+	}
+
+	public void drawBackground(Graphics2D g2) {
+		g2.setColor(Color.BLACK);
+		g2.draw(background);
+		g2.fill(background);
+	}
+
+	public void drawDirtImage(Graphics2D g2) {
+		g2.drawImage(this.level.image, 20, 120, null);
+	}
+
+
+	public void changeLevel(int num) {
+
+		Graphics2D g2 = (Graphics2D) this.c.getGraphics();
+
+		if (this.level.canChangeLevel(num)) {
+			this.monsters.clear();
+			this.rocks.clear();
+			this.blackSpaces.clear();
+			this.objects.clear();
+
+			try {
+				this.level.changeLevel(num);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			this.setLevelObjects();
+			this.drawDirtImage(g2);
+
+			this.c.repaint();
+		}
+	}
+
+	public void setLevelObjects() {
+
+		for (Point p : this.level.tunnelLocations) {
+			BlackSpace newSpace = new BlackSpace(p);
+			this.blackSpaces.put(p, newSpace);
+		}
+
+		for (Point p : this.level.fygarLocations) {
+			Fygar newFygar = new Fygar(p, this, "fygar");
+			this.monsters.add(newFygar);
+			this.objects.add(newFygar);
+		}
+
+		for (Point p : this.level.pookieLocations) {
+			Pookie newPookie = new Pookie(p, this, "pookie");
+			this.monsters.add(newPookie);
+			this.objects.add(newPookie);
+		}
+
+		for (Point p : this.level.rockLocations) {
+			Rock newRock = new Rock(p, this, "rock");
+			this.rocks.add(newRock);
+			this.objects.add(newRock);
+		}
+
+		for (GameObject o : this.objects) {
+			o.setBlackSpace(this.blackSpaces);
+		}
+
+		this.hero.centerPoint = this.level.heroLocation;
+		this.objects.add(this.hero);
+
+	}
+	// ======= Getter Methods ======= \\
+	public synchronized ArrayList<GameObject> getObjects() {
+		ArrayList<GameObject> newList = new ArrayList<>();
+		newList.addAll(monsters);
+		newList.addAll(rocks);
+		newList.addAll(fruits);
+		newList.add(hero);
+		return newList;
+	}
+
+	@Override
+	public void die() {
+	
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+	
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		return false;
+	}
+}

@@ -1,0 +1,36 @@
+Reflection Questions:
+
+1. What design changes did you have to make to meet the new requirements?
+
+	I set it up so Contests and Players are separate things: Contests do not have Players or vice versa, but they rely on each other.
+	Having a Players in many Contests makes it essential for Player to be less dependent on Contest.
+	
+
+2. Estimate how many lines of code had to be changed significantly.
+Explain why those changes were necessary.
+	
+	I'd estimate maybe 50 or so.
+	BasketballMain had to reach in too far to get player information, so it was necessary to allow it direct access to the players.
+	Also, to reduce the Player reliance on Contest, I had to add a few essential things to Player, such as a HashMap with Contest objects 
+	and the "_X_XXX_X_X_"-like strings that I called "hitMissesString".
+
+
+3. Estimate what percentage of the code was totally re-usable. 
+Explain ways your design choices enabled the code to be re-used.
+	
+	Around 75% was re-usable, but needed very slight changes. All the references to any Player needed to be changed so that 
+	you don't have to go through the Contests first to reach the Player. BasketballMain was very close to what it was before
+	because it required going through a list of all the Player and Contest to match up the input string, whether it be the contest name
+	or player name, with the Player objects' and Contest objects' names. That code was almost a direct copy over of the original code
+	I'd written.
+
+
+4. Select two or more specific design principles and discuss how they relate to the your experience in designing and implementing the code for Stage 2.
+
+	Reducing dependencies.
+		Reducing the dependencies between Player and Contest was the main priority in Stage 2. Because every Player was linked to a Contest,
+		it took too much code to reach the Player data. Now, it is very easy to access Player information!
+		
+	Increasing functionality.
+		By reducing dependencies, the functionality of the code was greatly improved. The first UML was even adapted to increase functionality
+		of the BasketballMain class by adding more responsibility to the Player class. The updated schematic is called MoreBasketballDesign2. 

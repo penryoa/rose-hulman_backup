@@ -1,0 +1,28 @@
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Dirt {
+	private BufferedImage image;
+	public Double position;
+	public Dirt(){
+		this.position=new Point2D.Double(0, 30);
+		try {
+			image = ImageIO.read(new File("dirt.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing dirt: " + e);
+		}
+	}
+	
+	public void drawDirt(Graphics2D g2) {
+		
+		g2.drawImage(image, 20, 120, null);
+		
+	}
+	
+}

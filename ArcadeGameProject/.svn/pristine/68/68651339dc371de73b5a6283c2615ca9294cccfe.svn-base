@@ -1,0 +1,37 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Rock extends GameObject {	
+	
+	private int timeCounter;
+	// ======= Rock Constructor ======= \\
+
+	public Rock(Point initialPosition, World world, String name){
+		super(initialPosition, world, name);
+		this.timeCounter = 0;
+	}
+
+	@Override
+	public void timePassed() {
+		if(this.blackSpaces.containsKey(new Point(this.getCenterPoint().x,this.getCenterPoint().y+40))
+				||this.blackSpaces.containsKey(new Point(this.getCenterPoint().x,this.getCenterPoint().y+30))
+				||this.blackSpaces.containsKey(new Point(this.getCenterPoint().x,this.getCenterPoint().y+20))
+				|| this.blackSpaces.containsKey(new Point(this.getCenterPoint().x,this.getCenterPoint().y+10))){
+			this.timeCounter++;
+			if(this.timeCounter>3) {
+				this.moveBy(0, 10);
+				this.collideWithHero(this.world.hero);
+				for(int i=0;i<this.world.monsters.size();i++) {
+					this.collideWithMonster(this.world.monsters.get(i));
+				}
+			}
+		}
+	}	
+}

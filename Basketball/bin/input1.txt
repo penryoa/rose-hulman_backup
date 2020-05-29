@@ -1,0 +1,11 @@
+create-player Abby 0.7
+create-player Bob 0.6
+create-player Chad 0.3
+create-contest Grandtoss 20
+add-player-to-contest Abby Grandtoss
+add-player-to-contest Bob Grandtoss
+add-player-to-contest Chad Grandtoss
+run-contest Grandtoss
+view-contest-report Abby Grandtoss
+view-contest-report Bob Grandtoss
+view-contest-report Chad Grandtoss

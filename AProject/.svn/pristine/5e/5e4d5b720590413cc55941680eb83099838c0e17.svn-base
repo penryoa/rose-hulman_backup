@@ -1,0 +1,35 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+public class Fygar extends Monster{
+
+	public Fygar(Point centerPoint) {
+		super(centerPoint);
+		try {
+			image = ImageIO.read(new File("fygar.png"));
+		} catch (IOException e) {
+			throw new RuntimeException("Error drawing fygar: " + e);
+		}
+	}
+	
+	@Override
+	public void drawCentered(Graphics2D g2) {
+	}
+
+	@Override
+	public void move(int dx, int dy) {
+	}
+
+	@Override
+	public Point2D getCenterPoint() {
+		return null;
+	}
+
+}

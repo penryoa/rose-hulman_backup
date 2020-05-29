@@ -1,0 +1,111 @@
+
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+
+public class Level {
+	
+	// ======= Important Objects ======= \\
+
+	public int level;
+	public FileReader currentLevelFile;
+	public ArrayList<Point> fygarLocations;
+	public ArrayList<Point> pookieLocations;
+	public ArrayList<Point> tunnelLocations;
+	public ArrayList<Point> rockLocations;
+	public Point heroLocation;
+	public BufferedImage image;
+
+	// ======= Level Constructor ======= \\
+
+	public Level(Graphics2D g2) throws IOException {
+		this.level = 1;
+		this.fygarLocations = new ArrayList<Point>();
+		this.pookieLocations = new ArrayList<Point>();
+		this.tunnelLocations = new ArrayList<Point>();
+		this.rockLocations = new ArrayList<Point>();
+		this.heroLocation = new Point(200, 500);
+		this.resetLevel();
+	}
+
+	// ======= Level Methods ======= \\
+
+	public int getCurrentLevel() {
+		return this.level;
+	}
+
+	public void resetLevel() throws IOException {
+		this.resetImage();
+		
+		this.currentLevelFile = new FileReader("Level " + this.level);
+		Scanner s = new Scanner(currentLevelFile);
+
+		while (s.hasNext()) {
+			String line = s.nextLine();
+
+			if (line.startsWith("F")) {
+				this.fygarLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("T")) {
+				this.tunnelLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("R")) {
+				this.rockLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("P")) {
+				this.pookieLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("H")) {
+				this.heroLocation = resetLevelHelper(line);
+			}
+		}
+
+		this.currentLevelFile.close();
+		s.close();
+	}
+
+	public Point resetLevelHelper(String line) {
+		String[] splitLine = line.split(" ");
+		int x = Integer.valueOf(splitLine[1]);
+		int y = Integer.valueOf(splitLine[2]);
+		Point newPoint = new Point(x, y);
+		return newPoint;
+	}
+	
+	public void resetImage() throws IOException{
+		BufferedImage image = ImageIO.read(new File("bkgd" + this.level + ".png"));
+		this.image = image;
+	}
+	
+
+	public void changeLevel(int num) throws IOException {
+		if (canChangeLevel(num)) {
+			this.level += num;
+			this.fygarLocations.clear();
+			this.pookieLocations.clear();
+			this.tunnelLocations.clear();
+			this.rockLocations.clear();
+			this.resetLevel();
+		}
+	}
+	
+	public boolean canChangeLevel(int num){
+		if (this.level + num >= 1 && this.level + num <= 4) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+}

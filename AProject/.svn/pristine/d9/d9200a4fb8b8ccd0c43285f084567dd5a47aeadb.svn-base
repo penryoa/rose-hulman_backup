@@ -1,0 +1,90 @@
+
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Level {
+	public int level;
+	public FileReader currentLevelFile;
+	public ArrayList<Point2D> fygarLocations;
+	public ArrayList<Point2D> pookieLocations;
+	public ArrayList<Point2D> tunnelLocations;
+	public ArrayList<Point2D> rockLocations;
+	public Point2D heroLocation;
+
+	public Level(Graphics2D g2) throws IOException {
+		this.level = 1;
+		this.fygarLocations = new ArrayList<Point2D>();
+		this.pookieLocations = new ArrayList<Point2D>();
+		this.tunnelLocations = new ArrayList<Point2D>();
+		this.rockLocations = new ArrayList<Point2D>();
+		this.heroLocation = new Point(200,500);
+		resetLevel();
+	}
+
+	public int getCurrentLevel() {
+		return this.level;
+	}
+
+	public void resetLevel() throws IOException {
+		this.currentLevelFile = new FileReader("Level " + this.level);
+		Scanner s = new Scanner(currentLevelFile);
+
+		while (s.hasNext()) {
+			String line = s.nextLine();
+
+			if (line.startsWith("F")) {
+				fygarLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("T")) {
+				tunnelLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("R")) {
+				rockLocations.add(resetLevelHelper(line));
+
+			} else if (line.startsWith("P")) {
+				pookieLocations.add(resetLevelHelper(line));
+			}
+		}
+
+		this.currentLevelFile.close();
+		s.close();
+	}
+
+	public Point2D resetLevelHelper(String line) {
+		String[] splitLine = line.split(" ");
+		int x = Integer.valueOf(splitLine[1]);
+		int y = Integer.valueOf(splitLine[2]);
+		Point newPoint = new Point(x, y);
+		return newPoint;
+	}
+
+	// public void nextLevel() throws IOException {
+	// if (this.count < 5) {
+	// this.count += 1;
+	// resetLevel();
+	// }
+	// }
+	//
+	// public void lastLevel() throws IOException {
+	// if (this.count > 1) {
+	// this.count -= 1;
+	// resetLevel();
+	// }
+	// }
+
+	public void changeLevel(int num) throws IOException{
+		if (this.level + num >= 1 && this.level + num <= 4) {
+			this.level+=num;
+			this.resetLevel();
+		}
+	}
+
+}

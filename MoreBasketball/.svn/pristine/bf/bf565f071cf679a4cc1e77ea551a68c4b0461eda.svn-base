@@ -1,0 +1,11 @@
+create-player Abby 0.6
+create-contest Grandtoss1 42
+add-player-to-contest Abby Grandtoss1
+run-contest Grandtoss1
+view-contest-report Abby Grandtoss1
+create-contest Grandtoss2 42
+add-player-to-contest Abby Grandtoss2
+run-contest Grandtoss2
+view-contest-report Abby Grandtoss2
+get-player-best-streak Abby
+get-player-best-percentage Abby

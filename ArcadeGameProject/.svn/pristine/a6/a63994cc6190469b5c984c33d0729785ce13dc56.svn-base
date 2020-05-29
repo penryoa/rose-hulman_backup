@@ -1,0 +1,13 @@
+
+
+import java.awt.Point;
+
+public class Fygar extends Monster{	
+	// ======= Fygar Constructor ======= \\
+	
+	public Fygar(Point centerPoint, World world, String name) {
+		super(centerPoint,world, name);
+	}
+	
+	
+}

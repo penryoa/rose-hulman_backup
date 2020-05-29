@@ -1,0 +1,27 @@
+import java.awt.Point;
+
+public class Rock1 extends Rock {
+
+	public Rock1(Point initialPosition, World world, String name) {
+		super(initialPosition, world, name);
+	}
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		// TODO Auto-generated method stub.
+		return false;
+	}
+
+}

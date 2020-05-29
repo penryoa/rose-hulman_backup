@@ -1,0 +1,87 @@
+
+
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class DigDugViewer {
+
+	/**
+	 * The width of the frame.
+	 */
+	public static final int WIDTH = 400;
+	/**
+	 * The height of the frame.
+	 */
+	public static final int HEIGHT = 300;
+
+	public void makeWindow() {
+		JFrame frame = new JFrame();
+
+		frame.setTitle("Dig Dug Project");
+
+		DigDugComponent c = new DigDugComponent();
+
+		c.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		frame.add(c);
+
+		JPanel panel = new JPanel();
+
+		// TODO: add your buttons here.
+
+		frame.add(panel, BorderLayout.SOUTH);
+		JButton button = new JButton("Left");
+		panel.add(button);
+		JButton button2 = new JButton("Right");
+		panel.add(button2);
+		JButton button3 = new JButton("Up");
+		panel.add(button3);
+		JButton button4 = new JButton("Down");
+		panel.add(button4);
+
+		ActionListener add = new listener(c, -10, 0);
+		button.addActionListener(add);
+		ActionListener add2 = new listener(c, 10, 0);
+		button2.addActionListener(add2);
+		ActionListener add3 = new listener(c, 0, -10);
+		button3.addActionListener(add3);
+		ActionListener add4 = new listener(c, 0, 10);
+		button4.addActionListener(add4);
+
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		DigDugViewer viewer = new DigDugViewer();
+		viewer.makeWindow();
+	}
+
+	private class listener implements ActionListener {
+
+		int dx;
+		int dy;
+		DigDugComponent c;
+
+		public listener(DigDugComponent c, int dx, int dy) {
+			this.dx = dx;
+			this.dy = dy;
+			this.c = c;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			c.removeAll();
+			c.getRoomba().moveBy(dx, dy);
+			c.repaint();
+		}
+	}
+
+}

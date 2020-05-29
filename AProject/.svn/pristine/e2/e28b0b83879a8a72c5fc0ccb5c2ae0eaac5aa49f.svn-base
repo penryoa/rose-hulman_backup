@@ -1,0 +1,42 @@
+
+import java.awt.Graphics2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Level {
+	int count;
+	FileReader currentLevel;
+
+	public Level(Graphics2D g2) throws FileNotFoundException {
+		this.count = 1;
+		resetLevel();
+	}
+
+	public int getCurrentLevel() {
+		return this.count;
+	}
+
+	public void resetLevel() throws FileNotFoundException {
+		this.currentLevel = new FileReader("Level " + count);
+		Scanner s = new Scanner(currentLevel);
+
+	}
+
+	public void nextLevel() throws FileNotFoundException {
+		if (this.count < 5) {
+			this.count += 1;
+			resetLevel();
+		}
+	}
+
+	public void lastLevel() throws FileNotFoundException {
+		if (this.count > 1) {
+			this.count = this.count-1;
+			resetLevel();
+		}
+	}
+}
