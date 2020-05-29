@@ -1,0 +1,42 @@
+{
+  "type": "index_parallel",
+  "spec": {
+    "ioConfig": {
+      "type": "index_parallel",
+      "inputSource": {
+        "type": "http",
+        "uris": [
+          "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/05-05-2020.csv"
+        ]
+      },
+      "inputFormat": {
+        "type": "csv",
+        "findColumnsFromHeader": true
+      },
+      "appendToExisting": true
+    },
+    "tuningConfig": {
+      "type": "index_parallel",
+      "partitionsSpec": {
+        "type": "dynamic"
+      }
+    },
+    "dataSchema": {
+      "dataSource": "covid",
+      "granularitySpec": {
+        "type": "uniform",
+        "queryGranularity": "HOUR"
+      },
+      "timestampSpec": {
+        "column": "Last_Update",
+        "format": "auto"
+      },
+      "dimensionsSpec": {
+        "dimensionExclusions": [
+          "FIPS",
+          "Combined_Key"
+        ]
+      }
+    }
+  }
+}

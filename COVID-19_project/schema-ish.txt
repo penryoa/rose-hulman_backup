@@ -1,0 +1,4 @@
+- case status (closed/open/death)
+- location patient is from (Country/State|Province/City)
+- Hospital (Location/Name)
+- Time discovered/dead|recovered
