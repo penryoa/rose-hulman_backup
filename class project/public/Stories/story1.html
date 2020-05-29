@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../CSS/style.css">
+  <title>Story 1</title>
+  <script src="https://code.jquery.com/jquery-3.3.0.js"></script>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.toggle').click(function(){
+        $('ul').toggleClass('active');
+      })
+    })
+  </script>
+</head>
+<body>
+  <nav>
+    <header>
+      <a href="index.html" class="logo"><img src="../img\logo.png"></a>
+      <a class="toggle">Menu</a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="MainStory.html">Story</a></li>
+        <li><a href="../about.html">About Us</a></li>
+      </ul>
+    </header>
+  </nav>
+
+  <h1>Restaurant Ratings Over Time</h1>
+  Over time, the group observed some interesting trends about the average inspection score. <br><br>
+  They noticed that as time went on the score got worse (higher score means more violations).
+<br>
+<br>
+
+  <button onclick="update('Manhattan')">Manhattan</button>
+  <button onclick="update('Bronx')">Bronx</button>
+  <button onclick="update('Brooklyn')">Brooklyn</button>
+  <button onclick="update('Queens')">Queens</button>
+  <button onclick="update('Staten Island')">Staten Island</button>
+
+<div id="my_dataviz"></div>
+<script src="https://unpkg.com/d3-interpolate-path/build/d3-interpolate-path.min.js"></script>
+  <script>
+
+  // set the dimensions and margins of the graph
+  var margin = {top: 10, right: 30, bottom: 30, left: 50},
+      width = 700 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+  // append the svg object to the body of the page
+  var svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+  // Initialize a X axis:
+  var x = d3.scaleLinear().range([0,width]);
+  var xAxis = d3.axisBottom().scale(x).tickValues([]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .attr("class","myXaxis")
+
+  // Initialize a Y axis
+  var y = d3.scaleLinear().range([height, 0]);
+  var yAxis = d3.axisLeft().scale(y);
+  svg.append("g")
+    .attr("class","myYaxis")
+
+  // Create a function that takes a dataset as input and update the plot:
+  function update(name) {
+
+    d3.csv("../Data/Time/RollingAveragesSmall.csv",
+
+      function(d){
+        return { ser1 : d.index, ser2 : d[name] };
+      },
+
+      function(data) {
+
+        data = data.filter(function(d) { return d.ser2 != 0; });
+        // update the X axis:
+        x.domain([d3.min(data, function(d) { return d.ser1 }), d3.max(data, function(d) { return d.ser1 }) ]);
+        svg.selectAll(".myXaxis").transition()
+          .duration(2000)
+          .call(xAxis);
+
+        // update the Y axis
+        y.domain([d3.min(data, function(d) { return d.ser2 }), d3.max(data, function(d) { return d.ser2  }) ]);
+        svg.selectAll(".myYaxis")
+          .transition()
+          .duration(2000)
+          .call(yAxis);
+
+        // Create a update selection: bind to the new data
+        var u = svg.selectAll(".lineTest")
+          .data([data], function(d){ return d.ser1 })
+
+        var line = d3.line()
+          .x(function(d) { return x(d.ser1); })
+          .y(function(d) { return y(d.ser2); });
+
+        //Update the line
+        u.enter()
+          .append("path")
+          .attr("class","lineTest")
+          .merge(u)
+          .transition()
+          .duration(2000)
+          .attrTween("d", function (d) {
+            var previous = d3.select(this).attr('d');
+            var current = line(d);
+            return d3.interpolatePath(previous, current);
+          })
+            .attr("fill", "none")
+            .attr("stroke", "black")
+            .attr("stroke-width", 2.5)
+
+          svg.selectAll("text-anchor")
+            .transition()
+            .duration(1000)
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2) + 20)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text(name);
+
+
+    })
+
+
+  }
+
+  // Run update for first dataset
+  update("Manhattan")
+
+  </script>
+</html>
+<html>

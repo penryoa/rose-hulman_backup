@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="CSS/style.css">
+  <link rel="stylesheet" type="text/css" href="CSS/HomePageAnimation.css">
+  <title>Home Page</title>
+  <script src="https://code.jquery.com/jquery-3.3.0.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.toggle').click(function() {
+        $('ul').toggleClass('active');
+      })
+    })
+  </script>
+</head>
+
+<body>
+  <!-- navigation bar -->
+  <nav>
+    <header>
+      <a href="index.html" class="logo"><img src="img\logo.png"></a>
+      <a class="toggle">Menu</a>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Stories/MainStory.html">Story</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </header>
+  </nav>
+
+  <!-- main content -->
+  <h1>Home Page: New York Restaurant Inspection</h1>
+  <p><b>Inspiration:</b></p>
+  <p>We thought it'd be interesting to look at the data for restaurant inspections in New York City and try
+    to find what type of restaurant (pizza, cafe, etc) has the best/worst health inspections,
+    or what parts of NYC have the healthiest/least healthy restaurants. If possible and time permitting,
+    we'd like to incorporate Yelp reviews and see how customer experiences compare to health inspections.
+    <br>
+    Our data source: <a href="https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j"></a>https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j</p>
+
+</body>
+
+</html>
+<html>
