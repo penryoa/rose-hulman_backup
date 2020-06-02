@@ -1,0 +1,14 @@
+misc.Decorator_A_Base
+misc.Decorator_A_concreteBase
+misc.Decorator_A_concreteDecorator
+misc.Decorator_A_extendsBase
+misc.Decorator_I_Base
+misc.Decorator_I_concreteBase
+misc.Decorator_I_concreteDecorator
+misc.Decorator_I_extendsBase
+misc.Decorator_main
+misc.SecurityManagerApp
+misc.SecurityManagerBackdoor
+misc.SecurityManagerBackDoorDecorator
+java.lang.SecurityManager
+-dBadDecorator

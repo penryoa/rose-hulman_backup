@@ -1,0 +1,11 @@
+-fC:\Users\penryoa\Documents\School\Quarter 8\CSSE374 - Software Design\Labs\Lab 3\Lab3-1\bin\main\problem
+-dBadDecorator
+-fC:\Users\penryoa\Documents\School\Quarter 8\CSSE374 - Software Design\Labs\Lab 7\Lab7-1\bin\problem
+-dAdapter
+
+java.util.Iterator
+java.util.Enumeration
+java.io.FilterOutputStream
+java.io.FilterInputStream
+java.io.InputStream
+java.io.OutputStream

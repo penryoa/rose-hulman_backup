@@ -1,0 +1,8 @@
+java.io.InputStream
+java.io.Reader
+java.io.InputStreamReader
+sun.nio.cs.StreamDecoder
+-dBadDecorator
+java.awt.event.MouseListener
+java.awt.event.MouseAdapter
+-dAdapter

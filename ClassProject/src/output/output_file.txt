@@ -1,0 +1,371 @@
+@startuml
+class containers.ClassContainer {
+	# node : jdk.internal.org.objectweb.asm.tree.ClassNode
+	+ access : java.lang.String
+	+ visibility : java.lang.String
+	+ superName : java.lang.String
+	+ displayName : java.lang.String
+	+ fullName : java.lang.String
+	+ borderColor : java.lang.String
+	+ backgroundColor : java.lang.String
+	+ methods : java.util.List<containers.MethodContainer>
+	+ fields : java.util.List<containers.FieldContainer>
+	+ interfaces : java.util.List<java.lang.String>
+	+ concretes : java.util.List<java.lang.String>
+	+ fieldTypes : java.util.List<java.lang.String>
+	+ stereotypes : java.util.List<java.lang.String>
+	- badConcretes : java.util.List<java.lang.String>
+	- {static} printer : jdk.internal.org.objectweb.asm.util.Printer
+	- {static} mp : jdk.internal.org.objectweb.asm.util.TraceMethodVisitor
+	+ {static} insnToString(insn : jdk.internal.org.objectweb.asm.tree.AbstractInsnNode): java.lang.String
+	+ equals(o : java.lang.Object): boolean
+	+ addStereotype(s : java.lang.String): void
+}
+class containers.FieldContainer {
+	# node : jdk.internal.org.objectweb.asm.tree.FieldNode
+	+ LVnode : jdk.internal.org.objectweb.asm.tree.LocalVariableNode
+	# display : boolean
+	+ access : java.lang.String
+	+ type : java.lang.String
+	+ typeDescription : java.lang.String
+	+ name : java.lang.String
+}
+class containers.MethodContainer {
+	# node : jdk.internal.org.objectweb.asm.tree.MethodNode
+	+ argumentTypes : java.util.List<java.lang.String>
+	+ argumentNames : java.util.List<java.lang.String>
+	+ argumentTypeDescription : java.util.List<java.lang.String>
+	+ returnType : java.lang.String
+	+ returnTypeDesc : java.lang.String
+	+ access : java.lang.String
+	+ name : java.lang.String
+	+ color : java.lang.String
+	- makeNice(str : java.lang.String): java.lang.String
+	- getArgTypesandNames(): void
+	+ makeCopy(): containers.MethodContainer
+}
+class containers.OpcodeDict$1 {
+	- {static} serialVersionUID : long
+}
+class containers.OpcodeDict$2 {
+	- {static} serialVersionUID : long
+}
+class containers.OpcodeDict {
+	+ {static} accessIntFieldMethod : java.util.LinkedHashMap<java.lang.Integer, java.lang.String>
+	+ {static} accessIntClass : java.util.LinkedHashMap<java.lang.Integer, java.lang.String>
+	+ {static} decodeFieldMethodAccessibility(access : int): java.lang.String
+	+ {static} decodeClassAccessibility(access : int): java.lang.String[]
+}
+class conversion.Arrow {
+	+ cardinalityTo : java.lang.String
+	+ cardinalityFrom : java.lang.String
+	+ arrowheadTo : java.lang.String
+	+ arrowheadFrom : java.lang.String
+	+ type : java.lang.String
+	+ stereotype : java.lang.String
+	+ color : java.lang.String
+	+ destName : java.lang.String
+	+ srcName : java.lang.String
+	+ equals(o : java.lang.Object): boolean
+	+ hashCode(): int
+}
+class conversion.ArrowFactory$1 {
+	# this$0 : conversion.ArrowFactory
+}
+class conversion.ArrowFactory {
+	# arrows : java.util.Set<conversion.Arrow>
+	# classContainers : java.util.List<containers.ClassContainer>
+	# classNames : java.util.List<java.lang.String>
+	# internalListNames : java.util.List<java.lang.String>
+	+ createArrows(): java.util.Set<conversion.Arrow>
+	- appendImplementations(c : containers.ClassContainer): void
+	- appendExtentions(c : containers.ClassContainer): void
+	- appendAssociations(c : containers.ClassContainer): void
+	- isCollection(classToCheck : java.lang.String, classDesc : java.lang.String): boolean
+	- appendDependencies(c : containers.ClassContainer): void
+	+ dependencyHelper(argType : java.lang.String, toCheck : java.lang.String, c : containers.ClassContainer, classFromDesc : java.lang.String): void
+	- makeArrow(from : java.lang.String, type : java.lang.String, to : java.lang.String, cardinalityTo : java.lang.String, arrowheadTo : java.lang.String): void
+	- removeDuplicates(): void
+}
+interface conversion.Converter {
+	+ abstract convert(): java.lang.String
+}
+class conversion.UMLConverter$1 {
+	# this$0 : conversion.UMLConverter
+}
+class conversion.UMLConverter {
+	# toConvert : java.util.List<containers.ClassContainer>
+	# arrows : java.util.Set<conversion.Arrow>
+	# arrowTypes : java.util.Map<java.lang.String, java.lang.String>
+	+ convert(): java.lang.String
+	# appendClassName(str : java.lang.StringBuilder, cContainer : containers.ClassContainer): void
+	- appendFields(str : java.lang.StringBuilder, cContainer : containers.ClassContainer): void
+	- appendMethods(str : java.lang.StringBuilder, cContainer : containers.ClassContainer): void
+	- appendMethodParameters(str : java.lang.StringBuilder, mContainer : containers.MethodContainer): void
+	- drawArrows(arrows : java.util.Set<conversion.Arrow>, str : java.lang.StringBuilder): void
+}
+class displays.AdapterArrow {
+	+ setArrowDisplay(arrows : java.util.List<conversion.Arrow>): void
+}
+class displays.AdapterDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+interface displays.ArrowDisplay {
+	+ abstract setArrowDisplay(): void
+}
+class displays.BadDecoratorClassDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+interface displays.ClassDisplay {
+	+ abstract setClassDisplay(): void
+}
+class displays.ComponentClassDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+class displays.ConcreteDecoratorDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+class displays.DecoratorArrowDisplay {
+	+ setArrowDisplay(arrows : java.util.List<conversion.Arrow>): void
+}
+class displays.DecoratorClassDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+class displays.DependencyInversionDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+class displays.OrangeArrowDisplay {
+	+ setArrowDisplay(arrows : java.util.List<conversion.Arrow>): void
+}
+class displays.OrangeClassDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+class displays.SingletonClassDisplay {
+	+ setClassDisplay(classes : java.util.List<containers.ClassContainer>): void
+}
+interface filter_settings.Alteration {
+	+ abstract alter(): void
+}
+class filter_settings.NormalParser {
+	+ parseDesign(toParse : java.util.List<java.lang.String>, toBlacklist : java.util.List<java.lang.String>): java.util.List<containers.ClassContainer>
+}
+interface filter_settings.Parser {
+	+ abstract parseDesign(): java.util.List<containers.ClassContainer>
+}
+class filter_settings.PrivateAlteration {
+	+ alter(toAlter : java.util.List<containers.ClassContainer>): void
+}
+class filter_settings.ProtectedAlteration {
+	+ alter(toAlter : java.util.List<containers.ClassContainer>): void
+}
+class filter_settings.PublicAlteration {
+	+ alter(toAlter : java.util.List<containers.ClassContainer>): void
+}
+class filter_settings.RecursiveParser {
+	+ parseDesign(toParse : java.util.List<java.lang.String>, toBlacklist : java.util.List<java.lang.String>): java.util.List<containers.ClassContainer>
+}
+class filter_settings.RecursiveParserV2 {
+	+ parseDesign(toParse : java.util.List<java.lang.String>, toBlacklist : java.util.List<java.lang.String>): java.util.List<containers.ClassContainer>
+	+ parseDesignRecur(toParseProt : java.util.List<java.lang.String>, blacklist : java.util.List<java.lang.String>): java.util.List<containers.ClassContainer>
+}
+class filter_settings.SyntheticToggleAlteration {
+	+ alter(toAlter : java.util.List<containers.ClassContainer>): void
+}
+class ParseSettings {
+	- {static} instance : ParseSettings
+	- {static} PARSER_FLAG : java.lang.String
+	- {static} ALTERATIONS_FLAG : java.lang.String
+	- {static} DETECTOR_FLAG : java.lang.String
+	- {static} BLACKLIST_FLAG : java.lang.String
+	- {static} FILE_FLAG : java.lang.String
+	- parserMap : java.util.Map<java.lang.String, filter_settings.Parser>
+	- alterationMap : java.util.Map<java.lang.String, filter_settings.Alteration>
+	- detectorMap : java.util.Map<java.lang.String, pattern_detectors.PatternDetector>
+	+ alterations : java.util.List<filter_settings.Alteration>
+	+ patternDetectors : java.util.List<pattern_detectors.PatternDetector>
+	+ currentParser : filter_settings.Parser
+	+ classes : java.util.List<java.lang.String>
+	+ blackList : java.util.List<java.lang.String>
+	+ {static} {super} getInstance(): ParseSettings
+	# parseSettingsFile(commandLineArguments : java.lang.String[], filePath : java.lang.String): void
+	- filePathToArgs(filePath : java.lang.String): java.lang.String[]
+	- filterArgs(arguments : java.lang.String[]): void
+	- setMaps(): void
+}
+class pattern_detectors.AdapterDetector {
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+	- checkAdapter(adapter : containers.ClassContainer, target : containers.ClassContainer, adaptee : containers.ClassContainer): boolean
+	- markPattern(adapter : containers.ClassContainer, target : containers.ClassContainer, adaptee : containers.ClassContainer): void
+	- markArrow(a : conversion.Arrow): void
+}
+class pattern_detectors.BadDecoratorDetector {
+	- cc : java.util.List<containers.ClassContainer>
+	- arrows : java.util.Set<conversion.Arrow>
+	- badDecoratorClasses : java.util.List<containers.ClassContainer>
+	- decoratorClasses : java.util.List<containers.ClassContainer>
+	- componentClasses : java.util.List<containers.ClassContainer>
+	- concreteClasses : java.util.List<containers.ClassContainer>
+	- componentArrows : java.util.List<conversion.Arrow>
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+	- getAllDecorators(): void
+	- getSuperClass(c : containers.ClassContainer): containers.ClassContainer
+	- getComponentClass(potentialDecorator : containers.ClassContainer): containers.ClassContainer
+	- containerFromName(name : java.lang.String): containers.ClassContainer
+	- checkFields(clazz : containers.ClassContainer, type : java.lang.String): boolean
+	- instanceIsPassedIntoConstructor(potentialDecorator : containers.ClassContainer, potentialComponent : containers.ClassContainer): boolean
+	- checkMethods(decorator : containers.ClassContainer, component : containers.ClassContainer): boolean
+	- setGoodAndBadDecorators(decoratorClass : containers.ClassContainer, componentClass : containers.ClassContainer): void
+}
+class pattern_detectors.BidirectionalDetector {
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+	- reverse(s : java.lang.String): java.lang.String
+	- isUnique(toAdd : java.util.Set<conversion.Arrow>, a1 : conversion.Arrow, a2 : conversion.Arrow): boolean
+}
+class pattern_detectors.ClassesStartWithPDetector {
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+}
+class pattern_detectors.CompOverInheritanceDetector {
+	+ detectPattern(classes : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+}
+class pattern_detectors.DecoratorDetector {
+	- cc : java.util.List<containers.ClassContainer>
+	- arrows : java.util.Set<conversion.Arrow>
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+	- getAllDecorators(decoratorClasses : java.util.List<containers.ClassContainer>, componentClasses : java.util.List<containers.ClassContainer>, componentArrows : java.util.List<conversion.Arrow>): void
+	- getAbstractSuperClass(c : containers.ClassContainer): containers.ClassContainer
+	- getComponentClass(potentialDecorator : containers.ClassContainer): containers.ClassContainer
+	- containerFromName(name : java.lang.String): containers.ClassContainer
+	- checkFields(clazz : containers.ClassContainer, type : java.lang.String): boolean
+	- instanceIsPassedIntoConstructor(potentialDecorator : containers.ClassContainer, potentialComponent : containers.ClassContainer): boolean
+	- checkMethods(concreteDecorator : containers.ClassContainer, component : containers.ClassContainer): boolean
+}
+class pattern_detectors.DependencyInversionDetector {
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+	- markViolation(c : containers.ClassContainer): void
+}
+interface pattern_detectors.PatternDetector {
+	+ abstract detectPattern(): void
+}
+class pattern_detectors.SingletonPatternDetector {
+	+ detectPattern(cc : java.util.List<containers.ClassContainer>, arrows : java.util.Set<conversion.Arrow>): void
+}
+class UMLConversionApp {
+	- converter : conversion.Converter
+	- settings : ParseSettings
+	+ {static} main(args : java.lang.String[]): void
+	+ createDiagram(): void
+}
+"pattern_detectors.AdapterDetector"..>"1..*""containers.ClassContainer"
+"containers.MethodContainer"..>"containers.MethodContainer"
+"pattern_detectors.BadDecoratorDetector"..>"displays.DecoratorClassDisplay"
+"pattern_detectors.BadDecoratorDetector"..|>"pattern_detectors.PatternDetector"
+"pattern_detectors.ClassesStartWithPDetector"..>"displays.OrangeClassDisplay"
+"displays.DecoratorArrowDisplay"..>"1..*""conversion.Arrow"
+"pattern_detectors.DecoratorDetector"-->"1..*""containers.ClassContainer"
+"displays.AdapterArrow"..|>"displays.ArrowDisplay"
+"filter_settings.RecursiveParserV2"..|>"filter_settings.Parser"
+"ParseSettings"..>"filter_settings.PublicAlteration"
+"pattern_detectors.CompOverInheritanceDetector"..>"1..*""conversion.Arrow"
+"pattern_detectors.BadDecoratorDetector"..>"displays.BadDecoratorClassDisplay"
+"pattern_detectors.AdapterDetector"..>"displays.AdapterDisplay"
+"pattern_detectors.DecoratorDetector"-->"1..*""conversion.Arrow"
+"pattern_detectors.DecoratorDetector"..|>"pattern_detectors.PatternDetector"
+"UMLConversionApp"..>"UMLConversionApp"
+"pattern_detectors.DependencyInversionDetector"..>"displays.DependencyInversionDisplay"
+"filter_settings.SyntheticToggleAlteration"..>"1..*""containers.ClassContainer"
+"pattern_detectors.BidirectionalDetector"..>"1..*""containers.ClassContainer"
+"pattern_detectors.CompOverInheritanceDetector"..>"displays.OrangeClassDisplay"
+"pattern_detectors.DependencyInversionDetector"..>"1..*""conversion.Arrow"
+"UMLConversionApp"..>"conversion.ArrowFactory"
+"ParseSettings"..>"pattern_detectors.BidirectionalDetector"
+"displays.ComponentClassDisplay"..>"1..*""containers.ClassContainer"
+"ParseSettings"..>"filter_settings.SyntheticToggleAlteration"
+"ParseSettings"..>"pattern_detectors.SingletonPatternDetector"
+"ParseSettings"..>"pattern_detectors.AdapterDetector"
+"ParseSettings"..>"pattern_detectors.DependencyInversionDetector"
+"conversion.UMLConverter"..|>"conversion.Converter"
+"pattern_detectors.BadDecoratorDetector"-->"1..*""containers.ClassContainer"
+"pattern_detectors.DependencyInversionDetector"..|>"pattern_detectors.PatternDetector"
+"ParseSettings"..>"pattern_detectors.ClassesStartWithPDetector"
+"filter_settings.PrivateAlteration"..|>"filter_settings.Alteration"
+"ParseSettings"..>"filter_settings.RecursiveParserV2"
+"displays.BadDecoratorClassDisplay"..|>"displays.ClassDisplay"
+"pattern_detectors.SingletonPatternDetector"..>"1..*""containers.ClassContainer"
+"containers.OpcodeDict"..>"containers.OpcodeDict$1"
+"displays.OrangeArrowDisplay"..>"1..*""conversion.Arrow"
+"displays.DependencyInversionDisplay"..>"1..*""containers.ClassContainer"
+"filter_settings.PublicAlteration"..>"1..*""containers.ClassContainer"
+"ParseSettings"-->"1..*""pattern_detectors.PatternDetector"
+"displays.OrangeClassDisplay"..>"1..*""containers.ClassContainer"
+"displays.SingletonClassDisplay"..|>"displays.ClassDisplay"
+"ParseSettings"..>"filter_settings.RecursiveParser"
+"pattern_detectors.SingletonPatternDetector"..>"1..*""conversion.Arrow"
+"filter_settings.RecursiveParserV2"..>"containers.ClassContainer"
+"filter_settings.PrivateAlteration"..>"1..*""containers.ClassContainer"
+"pattern_detectors.DecoratorDetector"..>"displays.DecoratorArrowDisplay"
+"UMLConversionApp"..>"conversion.UMLConverter"
+"filter_settings.ProtectedAlteration"..>"1..*""containers.ClassContainer"
+"displays.AdapterDisplay"..>"1..*""containers.ClassContainer"
+"pattern_detectors.BadDecoratorDetector"..>"displays.DecoratorArrowDisplay"
+"pattern_detectors.BadDecoratorDetector"..>"displays.ComponentClassDisplay"
+"pattern_detectors.AdapterDetector"..|>"pattern_detectors.PatternDetector"
+"pattern_detectors.CompOverInheritanceDetector"..>"displays.OrangeArrowDisplay"
+"conversion.ArrowFactory$1"-->"conversion.Arrow"
+"ParseSettings"..>"filter_settings.ProtectedAlteration"
+"conversion.ArrowFactory"-->"1..*""containers.ClassContainer"
+"UMLConversionApp"-->"ParseSettings"
+"displays.DecoratorArrowDisplay"..|>"displays.ArrowDisplay"
+"filter_settings.PublicAlteration"..|>"filter_settings.Alteration"
+"containers.ClassContainer"-->"1..*""containers.FieldContainer"
+"ParseSettings"..>"pattern_detectors.DecoratorDetector"
+"ParseSettings"-->"1..*""filter_settings.Alteration"
+"displays.AdapterArrow"..>"1..*""conversion.Arrow"
+"displays.ConcreteDecoratorDisplay"..|>"displays.ClassDisplay"
+"displays.AdapterDisplay"..|>"displays.ClassDisplay"
+"displays.OrangeClassDisplay"..|>"displays.ClassDisplay"
+"pattern_detectors.AdapterDetector"..>"1..*""conversion.Arrow"
+"pattern_detectors.DependencyInversionDetector"..>"1..*""containers.ClassContainer"
+"ParseSettings"-->"1..*""filter_settings.Parser"
+"pattern_detectors.BidirectionalDetector"..>"1..*""conversion.Arrow"
+"displays.ConcreteDecoratorDisplay"..>"1..*""containers.ClassContainer"
+"pattern_detectors.ClassesStartWithPDetector"..>"1..*""containers.ClassContainer"
+"displays.DependencyInversionDisplay"..|>"displays.ClassDisplay"
+"ParseSettings"..>"pattern_detectors.CompOverInheritanceDetector"
+"pattern_detectors.ClassesStartWithPDetector"..|>"pattern_detectors.PatternDetector"
+"conversion.ArrowFactory"<-->"conversion.ArrowFactory"
+"pattern_detectors.SingletonPatternDetector"..|>"pattern_detectors.PatternDetector"
+"pattern_detectors.AdapterDetector"..>"displays.AdapterArrow"
+"pattern_detectors.BadDecoratorDetector"..>"displays.ConcreteDecoratorDisplay"
+"pattern_detectors.SingletonPatternDetector"..>"displays.SingletonClassDisplay"
+"displays.OrangeArrowDisplay"..|>"displays.ArrowDisplay"
+"pattern_detectors.ClassesStartWithPDetector"..>"1..*""conversion.Arrow"
+"ParseSettings"..>"filter_settings.NormalParser"
+"pattern_detectors.DecoratorDetector"..>"displays.ComponentClassDisplay"
+"displays.BadDecoratorClassDisplay"..>"1..*""containers.ClassContainer"
+"conversion.ArrowFactory"-->"1..*""conversion.Arrow"
+"ParseSettings"-->"ParseSettings"
+"UMLConversionApp"-->"conversion.Converter"
+"conversion.UMLConverter"<-->"conversion.UMLConverter"
+"ParseSettings"..>"filter_settings.PrivateAlteration"
+"displays.DecoratorClassDisplay"..|>"displays.ClassDisplay"
+"filter_settings.RecursiveParser"..|>"filter_settings.Parser"
+"ParseSettings"..>"pattern_detectors.BadDecoratorDetector"
+"conversion.UMLConverter"-->"1..*""containers.ClassContainer"
+"pattern_detectors.BidirectionalDetector"..|>"pattern_detectors.PatternDetector"
+"filter_settings.RecursiveParser"..>"containers.ClassContainer"
+"filter_settings.NormalParser"..|>"filter_settings.Parser"
+"pattern_detectors.CompOverInheritanceDetector"..|>"pattern_detectors.PatternDetector"
+"containers.OpcodeDict"..>"containers.OpcodeDict$2"
+"filter_settings.ProtectedAlteration"..|>"filter_settings.Alteration"
+"containers.ClassContainer"-->"1..*""containers.MethodContainer"
+"filter_settings.NormalParser"..>"containers.ClassContainer"
+"pattern_detectors.DecoratorDetector"..>"displays.DecoratorClassDisplay"
+"conversion.UMLConverter"-->"1..*""conversion.Arrow"
+"filter_settings.SyntheticToggleAlteration"..|>"filter_settings.Alteration"
+"pattern_detectors.BadDecoratorDetector"-->"1..*""conversion.Arrow"
+"pattern_detectors.DecoratorDetector"..>"displays.ConcreteDecoratorDisplay"
+"displays.ComponentClassDisplay"..|>"displays.ClassDisplay"
+"pattern_detectors.CompOverInheritanceDetector"..>"1..*""containers.ClassContainer"
+"displays.DecoratorClassDisplay"..>"1..*""containers.ClassContainer"
+"displays.SingletonClassDisplay"..>"1..*""containers.ClassContainer"
+@enduml

@@ -1,0 +1,8 @@
+-f/Users/cambronjohnson/Desktop/374/Lab7-1/bin/problem
+-f/Users/cambronjohnson/Desktop/374/Lab3-1/bin/main/problem
+-dAdapter
+java.util.Enumeration
+java.util.Iterator
+misc.Adapter
+misc.Adaptee
+misc.ITarget
